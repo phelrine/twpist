@@ -71,6 +71,26 @@ div.page-header {
     width: 490px;
     height: 48px;
 }
+
+div.tweet-button-container {
+    position: relative;
+    text-align: right;
+    margin: 15px 0 3px 0;
+    height: 29px;
+    z-index: 3;
+}
+
+div.typing-assessment {
+    position: relative;
+    padding: 3px;
+    z-index: 3;
+    height: 100%;    
+}
+
+#main-typing-box {
+    margin-bottom: 20px;
+}
+
 section {
     padding-top: 60px;
 }

@@ -12,8 +12,8 @@
     <![endif]-->
 
     <!-- Le styles -->
-    <link href="public/css/bootstrap-1.2.0.min.css" rel="stylesheet">
-    <link href="public/css/ackyla.css" rel="stylesheet">
+    <link href="css/bootstrap-1.2.0.min.css" rel="stylesheet">
+    <link href="css/ackyla.css" rel="stylesheet">
     <!-- Le fav and touch icons -->
     <link rel="shortcut icon" href="images/favicon.ico">
     <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
@@ -42,16 +42,27 @@
 	    <div class="main-content">
 	      <div class="page-header">
 		<div id="main-typing-box">
-		  <div class="typing-assessment">原文</div>
+		  <div class="typing-assessment">
+		    <img class="large-bird" src="img/bird.png" width="54px" height="54px">
+		    <div class="twipsy right" style="top: 27.5px; left: 143px; ">
+		      <div class="twipsy-arrow"></div>
+		      <div class="twipsy-inner">right!</div>
+		    </div> 
+		  </div>
 		  <div class="typing-area">
 		    <textarea id="textarea" name="textarea"></textarea>
 		  </div>
 		  <div class="tweet-button-container">
-		    <div class="tweet-button", style="">
+		    <div class="tweet-button" style="textaline: right;">
 		      <button class="btn">ツイート</button>
 		    </div>
 		  </div>
 		</div>
+		<ul class="tabs" style="border-bottom: 0; margin-bottom: 0;">
+		  <li class="active"><a href="#">タイムライン</a></li>
+		  <li><a href="#">予備1</a></li>
+		  <li><a href="#">予備2</a></li>
+		</ul>
 	      </div>
 	    </div>
 	  </div>
