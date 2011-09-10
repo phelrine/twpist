@@ -1,0 +1,17 @@
+<html>
+  <head>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
+    <script type="text/javascript" src="dict.js"></script>
+    <script type="text/javascript" src="typing.js"></script>
+    <script type="text/javascript">
+      rg = new RomanizationGraph("はらだいこ");
+      console.log(rg.decode());
+    </script>
+  </head>
+  <body>
+    <h1 id="text"></h1>
+    <h2 id="romaji"></h2>
+    <h2 id="inputed" style="color: gray; display: inline"></h2>
+    <h2 id="input" style="color: red; display: inline;"></h2>
+  </body>
+</html>
