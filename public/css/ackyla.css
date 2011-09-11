@@ -39,6 +39,10 @@ div.timeline-container {
     min-height: 600px;
 }
 
+
+.break-word {
+    word-wrap: break-word;
+}
 /*
 div.dashboard {
     -webkit-border-top-right-radius: 5px;
