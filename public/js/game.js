@@ -12,6 +12,10 @@ setAssignment = function() {
   while (status.yomi.length === 0) {
     status = twpist.timeline[++twpist.index];
   }
+  console.log(status.user.profile_image_url);
+  $("div.typing-container img.icon").attr({
+    src: status.user.profile_image_url
+  });
   $("h2.typing-assignment").text(status.text);
   twpist.traverser = (new RomanizationGraph(status.yomi)).traverser();
   return $("div.typing-inputarea h2.input").text(twpist.traverser.decode());

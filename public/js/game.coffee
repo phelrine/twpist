@@ -7,6 +7,8 @@ setAssignment = ->
   $("div.typing-inputarea h2.fixed").text ""
   status = twpist.timeline[twpist.index]
   status = twpist.timeline[++twpist.index] while status.yomi.length is 0
+  console.log status.user.profile_image_url
+  $("div.typing-container img.icon").attr src: status.user.profile_image_url
   $("h2.typing-assignment").text status.text
   twpist.traverser = (new RomanizationGraph status.yomi).traverser()
   $("div.typing-inputarea h2.input").text twpist.traverser.decode()
