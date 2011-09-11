@@ -16,7 +16,31 @@ div.typing-container {
     border: 1px solid #EEE
 }
 
-div.typing-container textarea{
+div.popover-wrapper img.icon {
+    width: 42px;
+    height: 42px;
+    float: left;
+}
+
+div.popover-wrapper div.popover {
+    display: block;
+    position: relative;
+    margin-left: 60px;
+}
+
+div.popover.right div.arrow {
+    top: 25px;
+}
+
+div.popover div.inner {
+    width: 100%;
+}
+
+div.inner h2.typing-assignment {
+    border-radius: 5px 5px 5px 5px;
+}
+
+div.typing-container textarea {
     display: block;
     resize: vertical;
     width: 95%;
