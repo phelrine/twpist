@@ -1,83 +1,51 @@
-div.mini-layout {
-    background-color: white;
-    height: 149px;
-    margin-bottom: 20px;
-    padding: 3px;
-    border: none;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.398438);
-    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.398438);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.398438);
+div#main {
+    margin-top: 60px;
 }
-div.home-main {
-    background-color: white;
-    margin-top:60px;
-    margin-bottom:30px;
-    padding: 6px 0px 0px 3px;
-    border: none;
-    -webkit-border-radius:5px;
-    -moz-border-radius:5px;
-    border-radius:5px;
-    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
-    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);    
-}
-div.main-content {
-    width: 540px;
-    float: left;
-    display: inline-block;
-    z-index: 4;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    box-shadow: 0 3px 4px rgba(0,0,0,.5);
-    -moz-box-shadow: 0 3px 4px rgba(0,0,0,.5);
-    -webkit-box-shadow: 0 3px 4px rgba(0,0,0,.5);
-    border-right: 1px	solidid #EEE;
-    position: relative;
-    background: white;
-    height: 100%;
-    min-height: 700px;    
-}
-div.dashboard {
-    _width: 325px;
-    max-width: 460px;
-    min-width: 340px;
-    position: relative;
-    padding: 12px 20px;
-    padding-right: 19px	9;
-    overflow: hidden;
-    -webkit-border-top-right-radius: 5px;
-    -moz-border-radius-topright: 5px;
-    border-top-right-radius: 5px;
-}
-div.page-header {
+
+div.typing-container {
     background: whiteSmoke;
     border-radius: 5px 5px 0 0;
     -moz-border-radius: 5px 5px 0 0;
     -webkit-border-top-left-radius: 5px;
     -webkit-border-top-right-radius: 5px;
-    padding: 15px 20px 0 20px;
-    position: relative;
-    z-index: 2;
-    zoom: 1;
+    padding-top: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
     border-top-left-radius: 5px 5px;
     border-top-right-radius: 5px 5px;
+    border: 1px solid #EEE
 }
-.typing-area textarea {
+
+div.typing-container textarea{
+    display: block;
     resize: vertical;
-    width: 490px;
+    width: 95%;
     height: 48px;
 }
 
 div.tweet-button-container {
     position: relative;
     text-align: right;
-    margin: 15px 0 3px 0;
-    height: 29px;
-    z-index: 3;
+    margin: 10px 0px 5px 0px;
+}
+
+div.timeline-container {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    box-shadow: 0 3px 4px rgba(0,0,0,.5);
+    -moz-box-shadow: 0 3px 4px rgba(0,0,0,.5);
+    -webkit-box-shadow: 0 3px 4px rgba(0,0,0,.5);
+    min-height: 600px;
+}
+
+/*
+div.dashboard {
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topright: 5px;
+    border-top-right-radius: 5px;
+    height: 600px;
+    overflow: hidden;
 }
 
 div.typing-assessment {
@@ -86,11 +54,4 @@ div.typing-assessment {
     z-index: 3;
     height: 100%;    
 }
-
-#main-typing-box {
-    margin-bottom: 20px;
-}
-
-section {
-    padding-top: 60px;
-}
+*/

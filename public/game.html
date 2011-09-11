@@ -8,8 +8,8 @@
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
     <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
 
     <!-- Le styles -->
     <link href="css/bootstrap-1.2.0.min.css" rel="stylesheet">
@@ -22,55 +22,40 @@
   </head>
 
   <body>
-
-    <div class="topbar">
+    <header class="topbar">
       <div class="fill">
         <div class="container">
           <h3><a href="#">Twpist</a></h3>
           <ul class="nav">
-            <li class="active">
-              <li><a href="#logout">ログアウト</a></li>
+            <li><a href="#logout">ログアウト</a></li>
           </ul>
         </div>
       </div>
-    </div>
+    </header>
 
-    <div class="container">
-      <section id="main-layout">
-	<div class="row" style="margin-bottom: 0px;">
-	  <div class="span-two-thirds column">
-	    <div class="main-content">
-	      <div class="page-header">
-		<div id="main-typing-box">
-		  <div class="typing-assessment">
+    <div id="main" class="container">
+      <div class="row">
+	    <div class="timeline-container span10 column">
+	      <div class="typing-container" class="page-header">
 		    <img class="large-bird" src="img/bird.png" width="54px" height="54px">
-		    <div class="twipsy right" style="top: 27.5px; left: 143px; ">
-		      <div class="twipsy-arrow"></div>
-		      <div class="twipsy-inner">right!</div>
-		    </div> 
-		  </div>
-		  <div class="typing-area">
-		    <textarea id="textarea" name="textarea"></textarea>
-		  </div>
-		  <div class="tweet-button-container">
-		    <div class="tweet-button" style="textaline: right;">
+		    <!-- 
+                 <div class="twipsy right" style="top: 27.5px; left: 143px; ">
+		           <div class="twipsy-arrow"></div>
+		           <div class="twipsy-inner">right!</div>
+		         </div>
+                 -->
+            <textarea></textarea>
+		    <div class="tweet-button-container">
 		      <button class="btn">ツイート</button>
 		    </div>
-		  </div>
-		</div>
-		<ul class="tabs" style="border-bottom: 0; margin-bottom: 0;">
-		  <li class="active"><a href="#">タイムライン</a></li>
-		  <li><a href="#">予備1</a></li>
-		  <li><a href="#">予備2</a></li>
-		</ul>
-	      </div>
+          </div>
+		  <ul class="tabs" style="border-bottom: 0; margin-bottom: 0;">
+		    <li class="active"><a href="#">タイムライン</a></li>
+		    <li><a href="#">予備1</a></li>
+		    <li><a href="#">予備2</a></li>
+		  </ul>
 	    </div>
-	  </div>
-	  <div class="span-one-third column">
-	    <div class="dashboard"></div>
-	  </div>
-	</div>
-      </section>
+      </div>
     </div>
   </body>
 </html>
