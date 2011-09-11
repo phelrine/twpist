@@ -9,12 +9,8 @@ setAssignment = function() {
   var status;
   $("div.typing-inputarea h2.fixed").text("");
   status = twpist.timeline[twpist.index];
-  while (status.length === 0) {
-    twpist.index++;
-    status = twpist.timeline[twpist.index];
-  }
-  if (status === "") {
-    twpist.index++;
+  while (status.yomi.length === 0) {
+    status = twpist.timeline[++twpist.index];
   }
   $("h2.typing-assignment").text(status.text);
   twpist.traverser = (new RomanizationGraph(status.yomi)).traverser();

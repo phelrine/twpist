@@ -6,11 +6,7 @@ twpist.traverser = null
 setAssignment = ->
   $("div.typing-inputarea h2.fixed").text ""
   status = twpist.timeline[twpist.index]
-  while status.length == 0
-    twpist.index++
-    status = twpist.timeline[twpist.index]
-
-  twpist.index++ if status is ""
+  status = twpist.timeline[++twpist.index] while status.yomi.length is 0
   $("h2.typing-assignment").text status.text
   twpist.traverser = (new RomanizationGraph status.yomi).traverser()
   $("div.typing-inputarea h2.input").text twpist.traverser.decode()
