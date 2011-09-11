@@ -29,10 +29,6 @@ class TwpistApp < Sinatra::Base
     "twpist<br><a href='/auth/twitter'>twitter</a><br>"
   end
   
-  get 'game' do
-    
-  end
-  
   get '/timeline.json' do
     if session[:user]
       rubytter = OAuthRubytter.new(OAuth::AccessToken.new consumer, session[:token], session[:secret])
@@ -50,6 +46,6 @@ class TwpistApp < Sinatra::Base
     session[:user] = auth["uid"]
     session[:token] = auth["credentials"]["token"]
     session[:secret] = auth["credentials"]["secret"]
-    redirect '/game'
+    redirect '/game.html'
   end
 end

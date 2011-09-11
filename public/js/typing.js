@@ -166,5 +166,8 @@ Traverser = (function() {
     }
     return flag;
   };
+  Traverser.prototype.hasFinished = function() {
+    return this.index >= this.graph.length;
+  };
   return Traverser;
 })();

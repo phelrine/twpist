@@ -99,3 +99,5 @@ class Traverser
 
     (@position++; @fixed.push chr) if flag
     flag
+
+  hasFinished: -> @index >= @graph.length
