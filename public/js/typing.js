@@ -1,20 +1,21 @@
-var Code, Dict, RomanizationGraph, rg;
+var Code, Dict, RomanizationGraph, Traverser, rg, traverser;
 rg = null;
+traverser = null;
 $(document).ready(function() {
   var text;
-  text = "てすとぶんしょう";
+  text = "てすとのぶんしょう";
   $("#text").text(text);
   rg = new RomanizationGraph(text);
-  return $("#romaji").text(rg.decode());
+  traverser = rg.traverser();
+  $("#romaji").text(traverser.decode());
+  return $("#input").text(traverser.decode());
 });
 $(document).keydown(function(event) {
   var chr;
-  $("#input").text("");
   chr = String.fromCharCode(event.keyCode).toLowerCase();
-  if (rg.check(chr)) {
-    return $("#inputed").text($("#inputed").text() + chr);
-  } else {
-    return $("#input").text(chr);
+  if (traverser.traverse(chr)) {
+    $("#inputed").text(traverser.getFixedText());
+    return $("#input").text(traverser.decode());
   }
 });
 Array.prototype.clone = function() {
@@ -24,7 +25,6 @@ RomanizationGraph = (function() {
   function RomanizationGraph(sentence) {
     var chr, code, codes, index, ncode, nextChr, nextIndex, nflag, nnode, node, _i, _j, _k, _len, _len2, _len3, _ref, _ref2;
     this.graph = [];
-    this.pos = 0;
     index = 0;
     nflag = false;
     for (_i = 0, _len = sentence.length; _i < _len; _i++) {
@@ -85,44 +85,8 @@ RomanizationGraph = (function() {
       index++;
     }
   }
-  RomanizationGraph.prototype.decode = function() {
-    var node, ret, seq;
-    node = this.graph[this.pos];
-    ret = (function() {
-      var _results;
-      _results = [];
-      while (node != null) {
-        seq = node[0].code.join('');
-        node = this.graph[node[0].next];
-        _results.push(seq);
-      }
-      return _results;
-    }).call(this);
-    return ret.join('');
-  };
-  RomanizationGraph.prototype.check = function(chr) {
-    var code, flag, pos, _i, _len, _ref;
-    if (!(this.pos < this.graph.length)) {
-      return false;
-    }
-    pos = this.pos;
-    flag = false;
-    _ref = this.graph[this.pos];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      code = _ref[_i];
-      if (code.code[0] === chr) {
-        console.log(code.code);
-        console.log(code.next);
-        code.code.shift();
-        if (code.code.length === 0) {
-          pos = code.next;
-          console.log(this.graph[pos]);
-        }
-        flag = true;
-      }
-    }
-    this.pos = pos;
-    return flag;
+  RomanizationGraph.prototype.traverser = function() {
+    return new Traverser(this.graph);
   };
   return RomanizationGraph;
 })();
@@ -148,4 +112,59 @@ Code = (function() {
     this.next = next;
   }
   return Code;
+})();
+Traverser = (function() {
+  function Traverser(graph) {
+    this.graph = graph;
+    this.index = 0;
+    this.codeIndex = 0;
+    this.position = 0;
+    this.fixed = [];
+  }
+  Traverser.prototype.getFixedText = function() {
+    return this.fixed.join('');
+  };
+  Traverser.prototype.decode = function() {
+    var node, ret, top;
+    if (!(this.index < this.graph.length)) {
+      return "";
+    }
+    top = this.graph[this.index];
+    ret = [top[this.codeIndex].code.slice(this.position).join('')];
+    node = this.graph[top[0].next];
+    while (node != null) {
+      ret.push(node[0].code.join(''));
+      node = this.graph[node[0].next];
+    }
+    return ret.join('');
+  };
+  Traverser.prototype.traverse = function(chr) {
+    var code, flag, i, _ref, _ref2;
+    if (!(this.index < this.graph.length)) {
+      return false;
+    }
+    flag = false;
+    for (i = _ref = this.codeIndex, _ref2 = this.graph[this.index].length - 1; _ref <= _ref2 ? i <= _ref2 : i >= _ref2; _ref <= _ref2 ? i++ : i--) {
+      code = this.graph[this.index][i];
+      if (code.code[this.position] === chr) {
+        if (!flag) {
+          this.codeIndex = i;
+        }
+        flag = true;
+        if ((this.position + 1) === code.code.length) {
+          this.fixed.push(chr);
+          this.index = code.next;
+          this.codeIndex = 0;
+          this.position = 0;
+          return true;
+        }
+      }
+    }
+    if (flag) {
+      this.position++;
+      this.fixed.push(chr);
+    }
+    return flag;
+  };
+  return Traverser;
 })();

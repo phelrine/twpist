@@ -1,25 +1,25 @@
 rg = null
+traverser = null
 
 $(document).ready ->
-  text = "てすとぶんしょう"
+  text = "てすとのぶんしょう"
   $("#text").text text
-  rg = new RomanizationGraph text
-  $("#romaji").text rg.decode()
+  rg = new RomanizationGraph(text)
+  traverser = rg.traverser()
+  $("#romaji").text traverser.decode()
+  $("#input").text traverser.decode()
 
 $(document).keydown (event)->
-  $("#input").text("")
   chr = String.fromCharCode(event.keyCode).toLowerCase()
-  if rg.check chr
-    $("#inputed").text($("#inputed").text() + chr)
-  else
-    $("#input").text(chr)
+  if traverser.traverse chr
+    $("#inputed").text(traverser.getFixedText())
+    $("#input").text traverser.decode()
 
 Array::clone = -> @concat()
 
 class RomanizationGraph
   constructor: (sentence)->
     @graph = []
-    @pos = 0
     index = 0
     nflag = false
     for chr in sentence
@@ -31,6 +31,7 @@ class RomanizationGraph
         codes = if sentence[nextIndex + 1]? then Dict.conv(nextChr + sentence[nextIndex + 1]) else []
         node = node.concat((new Code (code[0] + code).split(''), nextIndex + 2) for code in codes)
         node = node.concat((new Code (code[0] + code).split(''), nextIndex + 1) for code in Dict.conv(nextChr))
+
       node.push new Code code.split(''), (nextIndex + 1) for code in Dict.conv(chr + nextChr) if nextChr?
       node.push new Code code.split(''), (nextIndex) for code in Dict.conv(chr)
 
@@ -45,29 +46,8 @@ class RomanizationGraph
       nflag = (chr is "ん")
       index++
 
-  decode: ->
-    node = @graph[@pos]
-    ret = while node?
-      seq = node[0].code.join('')
-      node = @graph[node[0].next]
-      seq
-    ret.join('')
+  traverser: -> new Traverser @graph
 
-  check: (chr)->
-    return false unless @pos < @graph.length
-    pos = @pos
-    flag = false
-    for code in @graph[@pos]
-      if code.code[0] is chr
-        console.log code.code
-        console.log code.next
-        code.code.shift()
-        if code.code.length is 0
-          pos = code.next
-          console.log @graph[pos]
-        flag = true
-    @pos = pos
-    flag
 
 class Dict
   @conv: (chr)->
@@ -80,3 +60,42 @@ class Dict
 
 class Code
   constructor: (@code, @next)->
+
+
+class Traverser
+  constructor: (@graph)->
+    @index = 0
+    @codeIndex = 0
+    @position = 0
+    @fixed = []
+
+  getFixedText: ->
+    @fixed.join('')
+
+  decode: ->
+    return "" unless @index < @graph.length
+    top = @graph[@index]
+    ret = [top[@codeIndex].code.slice(@position).join('')]
+    node = @graph[top[0].next]
+    while node?
+      ret.push node[0].code.join('')
+      node = @graph[node[0].next]
+    ret.join('')
+
+  traverse: (chr)->
+    return false unless @index < @graph.length
+    flag = false
+    for i in [@codeIndex .. (@graph[@index].length - 1)]
+      code = @graph[@index][i]
+      if code.code[@position] is chr
+        @codeIndex = i if not flag
+        flag = true
+        if (@position + 1) is code.code.length
+          @fixed.push chr
+          @index = code.next
+          @codeIndex = 0
+          @position = 0
+          return true
+
+    (@position++; @fixed.push chr) if flag
+    flag
