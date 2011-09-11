@@ -14,10 +14,7 @@ $(document).keydown (event)->
   else
     $("#input").text(chr)
 
-clone = (obj) ->
-  clone = ->
-  clone.prototype = obj
-  return new clone;
+Array::clone = -> @concat()
 
 class RomanizationGraph
   constructor: (sentence)->
@@ -39,7 +36,7 @@ class RomanizationGraph
 
       if nflag
         nnode = for code in node
-          ncode = new Code code.code.concat(), code.next
+          ncode = new Code code.code.clone(), code.next
           ncode.code.unshift "n"
           ncode
         node = node.concat(nnode)

@@ -1,4 +1,4 @@
-var Code, Dict, RomanizationGraph, clone, rg;
+var Code, Dict, RomanizationGraph, rg;
 rg = null;
 $(document).ready(function() {
   var text;
@@ -17,10 +17,8 @@ $(document).keydown(function(event) {
     return $("#input").text(chr);
   }
 });
-clone = function(obj) {
-  clone = function() {};
-  clone.prototype = obj;
-  return new clone;
+Array.prototype.clone = function() {
+  return this.concat();
 };
 RomanizationGraph = (function() {
   function RomanizationGraph(sentence) {
@@ -74,7 +72,7 @@ RomanizationGraph = (function() {
           _results = [];
           for (_l = 0, _len4 = node.length; _l < _len4; _l++) {
             code = node[_l];
-            ncode = new Code(code.code.concat(), code.next);
+            ncode = new Code(code.code.clone(), code.next);
             ncode.code.unshift("n");
             _results.push(ncode);
           }
