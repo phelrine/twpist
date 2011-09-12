@@ -17,8 +17,9 @@ div.typing-container {
 }
 
 div.popover-wrapper img.icon {
-    width: 42px;
-    height: 42px;
+    margin: 4px;
+    width: 48px;
+    height: 48px;
     float: left;
 }
 
@@ -66,6 +67,10 @@ div.timeline-container {
 
 .break-word {
     word-wrap: break-word;
+}
+
+.clear {
+    clear: both;
 }
 /*
 div.dashboard {
