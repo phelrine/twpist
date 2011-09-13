@@ -40,7 +40,7 @@ class RomanizationGraph
           ncode = new Code code.code.clone(), code.next
           ncode.code.unshift "n"
           ncode
-        node = node.concat(nnode)
+        node = nnode.concat(node)
 
       @graph.push node
       nflag = (chr is "ん")

@@ -78,7 +78,7 @@ RomanizationGraph = (function() {
           }
           return _results;
         })();
-        node = node.concat(nnode);
+        node = nnode.concat(node);
       }
       this.graph.push(node);
       nflag = chr === "ん";
