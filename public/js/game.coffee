@@ -27,9 +27,12 @@ $(document).ready ->
 $(document).keydown (event)->
   chr = String.fromCharCode(event.keyCode).toLowerCase()
   if twpist.traverser.traverse chr
-    $("div.typing-inputarea h2.fixed").text twpist.traverser.getFixedText()
+    fixed = $("div.typing-inputarea h2.fixed")
+    fixed.text twpist.traverser.getFixedText()
+    fixed.scrollLeft fixed.width()
     $("div.typing-inputarea h2.input").text twpist.traverser.decode()
     if twpist.traverser.hasFinished()
+      prependTweet twpist.timeline[twpist.index]
       twpist.index++
       setAssignment()
       false
