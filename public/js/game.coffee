@@ -31,7 +31,7 @@ $(document).keydown (event)->
   if twpist.traverser.traverse chr
     fixed = $("div.typing-inputarea h2.fixed")
     fixed.text twpist.traverser.getFixedText()
-    fixed.scrollLeft fixed.width()
+    fixed.scrollLeft fixed.get(0).scrollWidth
     $("div.typing-inputarea h2.input").text twpist.traverser.decode()
     if twpist.traverser.hasFinished()
       prependTweet twpist.timeline[twpist.index]
