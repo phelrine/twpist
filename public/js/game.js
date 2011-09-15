@@ -1,4 +1,4 @@
-var setAssignment;
+var prependTweet, setAssignment;
 if (typeof twpist === "undefined" || twpist === null) {
   twpist = {};
 }
@@ -19,6 +19,9 @@ setAssignment = function() {
   $("h2.typing-assignment").text(status.text);
   twpist.traverser = (new RomanizationGraph(status.yomi)).traverser();
   return $("div.typing-inputarea h2.input").text(twpist.traverser.decode());
+};
+prependTweet = function(status) {
+  return $("ul.timeline").prepend($("<li>").addClass("tweet").text(status.text));
 };
 $(document).ready(function() {
   $.get("/timeline.json", function(timeline) {

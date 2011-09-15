@@ -13,6 +13,9 @@ setAssignment = ->
   twpist.traverser = (new RomanizationGraph status.yomi).traverser()
   $("div.typing-inputarea h2.input").text twpist.traverser.decode()
 
+prependTweet = (status) ->
+  $("ul.timeline").prepend $("<li>").addClass("tweet").text(status.text)
+
 $(document).ready ->
   $.get "/timeline.json", (timeline)->
     status.yomi = status.yomi.replace /[^ぁ-ん]+/g, "" for status in timeline
