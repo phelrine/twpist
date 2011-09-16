@@ -14,9 +14,7 @@ setAssignment = ->
   $("div.typing-inputarea h2.input").text twpist.traverser.decode()
 
 prependTweet = (status) ->
-  $("ul.timeline").prepend $("<li>").addClass("tweet")
-    .append($("<img>").attr(src: status.user.profile_image_url))
-    .append($("<p>").text(status.text))
+  $("ul.timeline").prepend(new EJS(url: "ejs/tweet.ejs").render status: status)
 
 $(document).ready ->
   $.get "/timeline.json", (timeline)->

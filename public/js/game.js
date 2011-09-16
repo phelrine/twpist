@@ -21,9 +21,11 @@ setAssignment = function() {
   return $("div.typing-inputarea h2.input").text(twpist.traverser.decode());
 };
 prependTweet = function(status) {
-  return $("ul.timeline").prepend($("<li>").addClass("tweet").append($("<img>").attr({
-    src: status.user.profile_image_url
-  })).append($("<p>").text(status.text)));
+  return $("ul.timeline").prepend(new EJS({
+    url: "ejs/tweet.ejs"
+  }).render({
+    status: status
+  }));
 };
 $(document).ready(function() {
   $.get("/timeline.json", function(timeline) {
