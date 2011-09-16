@@ -112,7 +112,7 @@ hr.tweet-hr {
     margin-bottom: 12px;
 }
 
-ul.timeline {
+ul.result, ul.timeline {
     list-style: none;
     margin: 0;
     padding-top: 18px;

@@ -8,7 +8,13 @@
       </span>
     </span>
     <div class="tweet-text"><%= status.text %></div>
-    <div class="tweet-time">5秒</div>
+    <div class="tweet-time">
+      <% if (typeof time !== "undefined") {%>
+      <%= time/1000 %>秒
+      <% } else { %>
+      &nbsp;
+      <% } %>
+    </div>
   </div>
   <hr class="clear tweet-hr"></hr>
 </li>
