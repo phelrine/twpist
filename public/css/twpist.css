@@ -72,6 +72,49 @@ div.ad-container {
     border-top-right-radius: 5px;
 }
 
+img.tweet-image {
+    width: 48px;
+    height: 48px;
+    float: left;
+    margin-left: 1.5em;
+}
+
+div.tweet-content {
+    margin: 0 2em 0 6em;
+}
+
+span.tweet-screen-name {
+    font-weight: bold;
+    color: black;
+    font-size: 15px;
+}
+
+span.tweet-name {
+    font-weight: normal;
+    color: gray;
+    font-size: 12px;
+    vertical-align: baseline;
+}
+
+div.tweet-text {
+    font-size: 15px;
+    color: black;
+}
+
+div.tweet-time {
+    font-size: 12px;
+    margin-bottom: 12px;
+}
+
+hr.tweet-hr {
+    margin-bottom: 12px;
+}
+
+ul.timeline {
+    list-style: none;
+    margin: 0;
+}
+
 .break-word {
     /* word-wrap: break-word; */
     overflow: hidden;

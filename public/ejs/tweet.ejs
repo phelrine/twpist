@@ -1,4 +1,14 @@
 <li class="tweet">
-  <img src="<%= status.user.profile_image_url %>"/>
-  <p><%= status.text %></p>
+  <img class="tweet-image" src="<%= status.user.profile_image_url %>"/>
+  <div class="tweet-content">
+    <span class="tweet-screen-name">
+      <%= status.user.screen_name %>
+      <span class="tweet-name">
+	<%= status.user.name %>
+      </span>
+    </span>
+    <div class="tweet-text"><%= status.text %></div>
+    <div class="tweet-time">5秒</div>
+  </div>
+  <hr class="clear tweet-hr"></hr>
 </li>
