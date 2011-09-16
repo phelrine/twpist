@@ -41,13 +41,6 @@ div.inner h2.typing-assignment {
     border-radius: 5px 5px 5px 5px;
 }
 
-div.typing-container textarea {
-    display: block;
-    resize: vertical;
-    width: 95%;
-    height: 48px;
-}
-
 div.tweet-button-container {
     position: relative;
     text-align: right;
