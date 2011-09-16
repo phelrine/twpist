@@ -1,4 +1,4 @@
-var countUp, loadAssignment, prependTweet, setAssignment;
+var countUp, loadAssignment, prependTweet, setAssignment, showResult;
 if (typeof twpist === "undefined" || twpist === null) {
   twpist = {};
 }
@@ -32,7 +32,23 @@ prependTweet = function(status) {
   return tweet.show("slow");
 };
 countUp = function() {
-  return twpist.count++;
+  twpist.count++;
+  if (twpist.count === 10) {
+    return showResult();
+  }
+};
+showResult = function() {
+  $("div.controller-container").hide();
+  $("ul.timeline").hide();
+  $(".result").show();
+  $("ul.tabs li.timeline").removeClass("active");
+  $("ul.tabs li.result").addClass("active");
+  $("div.typing-container div.result").append(new EJS({
+    url: "ejs/result_tweet.ejs"
+  }).render());
+  return $("div.timeline-container div.result").append(new EJS({
+    url: "ejs/result.ejs"
+  }).render());
 };
 loadAssignment = function(regex) {
   $("div.level-container").hide("slow");
@@ -44,7 +60,7 @@ loadAssignment = function(regex) {
     }
     twpist.timeline = timeline.reverse();
     setAssignment();
-    $("div.popover-wrapper").show();
+    $("div.controller-container").show();
     $(document).keydown(function(event) {
       var chr, fixed;
       chr = String.fromCharCode(event.keyCode).toLowerCase();

@@ -21,14 +21,24 @@ prependTweet = (status) ->
 
 countUp = ()->
   twpist.count++
+  if twpist.count is 10
+    showResult()
 
+showResult = ()->
+  $("div.controller-container").hide()
+  $("ul.timeline").hide()
+  $(".result").show()
+  $("ul.tabs li.timeline").removeClass "active"
+  $("ul.tabs li.result").addClass "active"
+  $("div.typing-container div.result").append new EJS(url: "ejs/result_tweet.ejs").render()
+  $("div.timeline-container div.result").append new EJS(url: "ejs/result.ejs").render()
 loadAssignment = (regex)->
   $("div.level-container").hide "slow"
   $.get "/timeline.json", (timeline)->
     status.yomi = status.yomi.replace regex, "" for status in timeline
     twpist.timeline = timeline.reverse()
     setAssignment()
-    $("div.popover-wrapper").show()
+    $("div.controller-container").show()
 
     $(document).keydown (event)->
       chr = String.fromCharCode(event.keyCode).toLowerCase()
