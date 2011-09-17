@@ -3,8 +3,8 @@ $(document).ready ->
   $("li.result a").click showResult
   twpist = new Twpist
   $("a.btn.easy").click -> twpist.loadAssignment /[^ぁ-ん]+/g
-  # $("a.btn.normal").click -> loadAssignment /[^ぁ-ん1-9]+/g
-  # $("a.btn.hard").click -> loadAssignment /[^ぁ-ん1-9a-zA-Z]+/g
+  $("a.btn.normal").click -> twpist.loadAssignment /[^ぁ-んa-zA-Z]+/g
+  $("a.btn.hard").click -> twpist.loadAssignment /[^ぁ-ん0-9a-zA-Z]+/g
 
   $("a.logout").click ->
     $.post "/logout", -> location.href = "/"

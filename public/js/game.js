@@ -8,6 +8,12 @@ $(document).ready(function() {
   $("a.btn.easy").click(function() {
     return twpist.loadAssignment(/[^ぁ-ん]+/g);
   });
+  $("a.btn.normal").click(function() {
+    return twpist.loadAssignment(/[^ぁ-んa-zA-Z]+/g);
+  });
+  $("a.btn.hard").click(function() {
+    return twpist.loadAssignment(/[^ぁ-ん0-9a-zA-Z]+/g);
+  });
   $("a.logout").click(function() {
     return $.post("/logout", function() {
       return location.href = "/";
