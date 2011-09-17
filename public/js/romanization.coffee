@@ -1,20 +1,3 @@
-rg = null
-traverser = null
-
-$(document).ready ->
-  text = "てすとのぶんしょう"
-  $("#text").text text
-  rg = new RomanizationGraph(text)
-  traverser = rg.traverser()
-  $("#romaji").text traverser.decode()
-  $("#input").text traverser.decode()
-
-$(document).keydown (event)->
-  chr = String.fromCharCode(event.keyCode).toLowerCase()
-  if traverser.traverse chr
-    $("#inputed").text(traverser.getFixedText())
-    $("#input").text traverser.decode()
-
 Array::clone = -> @concat()
 
 class RomanizationGraph

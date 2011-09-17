@@ -1,23 +1,4 @@
-var Code, Dict, RomanizationGraph, Traverser, rg, traverser;
-rg = null;
-traverser = null;
-$(document).ready(function() {
-  var text;
-  text = "てすとのぶんしょう";
-  $("#text").text(text);
-  rg = new RomanizationGraph(text);
-  traverser = rg.traverser();
-  $("#romaji").text(traverser.decode());
-  return $("#input").text(traverser.decode());
-});
-$(document).keydown(function(event) {
-  var chr;
-  chr = String.fromCharCode(event.keyCode).toLowerCase();
-  if (traverser.traverse(chr)) {
-    $("#inputed").text(traverser.getFixedText());
-    return $("#input").text(traverser.decode());
-  }
-});
+var Code, Dict, RomanizationGraph, Traverser;
 Array.prototype.clone = function() {
   return this.concat();
 };
