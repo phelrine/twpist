@@ -1,13 +1,29 @@
 $(document).ready ->
+  $("li.timeline a").click showTimeline
+  $("li.result a").click showResult
   twpist = new Twpist
   $("a.btn.easy").click -> twpist.loadAssignment /[^ぁ-ん]+/g
   # $("a.btn.normal").click -> loadAssignment /[^ぁ-ん1-9]+/g
   # $("a.btn.hard").click -> loadAssignment /[^ぁ-ん1-9a-zA-Z]+/g
 
+showTimeline = ->
+  $("ul.result").hide()
+  $("ul.tabs .active").removeClass "active"
+
+  $("ul.timeline").show()
+  $("ul.tabs li.timeline").addClass "active"
+
+showResult = ->
+  $("ul.timeline").hide()
+  $("ul.tabs .active").removeClass "active"
+
+  $("ul.result").show()
+  $("ul.tabs li.result").addClass "active"
+
 class Twpist
   loadAssignment: (regex)->
     @index = -1
-    @count = 0
+    @count = 140
     @allType = 0
     $("div.level-container").hide "slow"
 
@@ -49,31 +65,30 @@ class Twpist
     $("div.typing-inputarea h2.input").text @traverser.decode()
 
   countUp: ->
-    @count++
-    $("h2.left-time").text (140 - @count)
-    @showResult() if @count is 140
+    @count--
+    $("h2.left-time").text @count
+    @result() if @count is 0
 
-  showResult: ->
+  result: ->
     clearInterval(@timer)
     $("div.controller-container").hide()
-    $("ul.timeline").hide()
-    $(".result").show()
-    $("ul.tabs li.timeline").removeClass "active"
-    $("ul.tabs li.result").addClass "active"
+    $("ul.tabs li.result").show()
+    showResult()
+
     resultEjs = new EJS(url: "ejs/result_tweet.ejs")
     $("div.typing-container div.result").append resultEjs.render()
     tweetEjs = new EJS(url: "ejs/tweet.ejs")
-    $("ul.result").append tweetEjs.render
+    resultList = $("ul.result")
+    resultList.append tweetEjs.render
       status: new ProxyStatus @allType + "文字", "img/icon.gif", "総入力文字数"
-    $("ul.result").append tweetEjs.render
+    resultList.append tweetEjs.render
       status: new ProxyStatus @index + "ツイート", "img/icon.gif", "総入力ツイート数"
-    $("ul.result").append tweetEjs.render
-      status: new ProxyStatus (25600 / @allType).toFixed(3) + "秒", "img/icon.gif",
-        "140文字打つのにかかる時間"
-    $("ul.result").append tweetEjs.render
+    resultList.append tweetEjs.render
+      status: new ProxyStatus (25600 / @allType).toFixed(3) + "秒", "img/icon.gif", "140文字打つのにかかる時間"
+    resultList.append tweetEjs.render
       status: new ProxyStatus (140 / @index).toFixed(3) + "秒/ツイート", "img/icon.gif", "平均ツイート時間"
-    $("ul.result").append tweetEjs.render
-      status: new ProxyStatus (650 * @index).toFixed(3)  + "ツイート", "img/icon.gif", "一日でツイートできる回数"
+    resultList.append tweetEjs.render
+      status: new ProxyStatus 650 * @index  + "ツイート", "img/icon.gif", "一日でツイートできる回数"
 
 
 class ProxyStatus

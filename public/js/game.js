@@ -1,17 +1,31 @@
-var ProxyStatus, Twpist;
+var ProxyStatus, Twpist, showResult, showTimeline;
 var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 $(document).ready(function() {
   var twpist;
+  $("li.timeline a").click(showTimeline);
+  $("li.result a").click(showResult);
   twpist = new Twpist;
   return $("a.btn.easy").click(function() {
     return twpist.loadAssignment(/[^ぁ-ん]+/g);
   });
 });
+showTimeline = function() {
+  $("ul.result").hide();
+  $("ul.tabs .active").removeClass("active");
+  $("ul.timeline").show();
+  return $("ul.tabs li.timeline").addClass("active");
+};
+showResult = function() {
+  $("ul.timeline").hide();
+  $("ul.tabs .active").removeClass("active");
+  $("ul.result").show();
+  return $("ul.tabs li.result").addClass("active");
+};
 Twpist = (function() {
   function Twpist() {}
   Twpist.prototype.loadAssignment = function(regex) {
     this.index = -1;
-    this.count = 0;
+    this.count = 140;
     this.allType = 0;
     $("div.level-container").hide("slow");
     $.get("/timeline.json", __bind(function(timeline) {
@@ -70,20 +84,18 @@ Twpist = (function() {
     return $("div.typing-inputarea h2.input").text(this.traverser.decode());
   };
   Twpist.prototype.countUp = function() {
-    this.count++;
-    $("h2.left-time").text(140 - this.count);
-    if (this.count === 140) {
-      return this.showResult();
+    this.count--;
+    $("h2.left-time").text(this.count);
+    if (this.count === 0) {
+      return this.result();
     }
   };
-  Twpist.prototype.showResult = function() {
-    var resultEjs, tweetEjs;
+  Twpist.prototype.result = function() {
+    var resultEjs, resultList, tweetEjs;
     clearInterval(this.timer);
     $("div.controller-container").hide();
-    $("ul.timeline").hide();
-    $(".result").show();
-    $("ul.tabs li.timeline").removeClass("active");
-    $("ul.tabs li.result").addClass("active");
+    $("ul.tabs li.result").show();
+    showResult();
     resultEjs = new EJS({
       url: "ejs/result_tweet.ejs"
     });
@@ -91,20 +103,21 @@ Twpist = (function() {
     tweetEjs = new EJS({
       url: "ejs/tweet.ejs"
     });
-    $("ul.result").append(tweetEjs.render({
+    resultList = $("ul.result");
+    resultList.append(tweetEjs.render({
       status: new ProxyStatus(this.allType + "文字", "img/icon.gif", "総入力文字数")
     }));
-    $("ul.result").append(tweetEjs.render({
+    resultList.append(tweetEjs.render({
       status: new ProxyStatus(this.index + "ツイート", "img/icon.gif", "総入力ツイート数")
     }));
-    $("ul.result").append(tweetEjs.render({
-      status: new ProxyStatus((25600 / this.allType).toFixed(3) + "秒", "img/icon.gif")
-    }, "140文字打つのにかかる時間"));
-    $("ul.result").append(tweetEjs.render({
+    resultList.append(tweetEjs.render({
+      status: new ProxyStatus((25600 / this.allType).toFixed(3) + "秒", "img/icon.gif", "140文字打つのにかかる時間")
+    }));
+    resultList.append(tweetEjs.render({
       status: new ProxyStatus((140 / this.index).toFixed(3) + "秒/ツイート", "img/icon.gif", "平均ツイート時間")
     }));
-    return $("ul.result").append(tweetEjs.render({
-      status: new ProxyStatus((650 * this.index).toFixed(3) + "ツイート", "img/icon.gif", "一日でツイートできる回数")
+    return resultList.append(tweetEjs.render({
+      status: new ProxyStatus(650 * this.index + "ツイート", "img/icon.gif", "一日でツイートできる回数")
     }));
   };
   return Twpist;

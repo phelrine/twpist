@@ -46,7 +46,7 @@ div.inner h2.typing-assignment {
 div.tweet-button-container {
     position: relative;
     text-align: right;
-    margin: 10px 0px 5px 0px;
+    margin: 10px 0px 0px 0px;
 }
 
 div.timeline-container {
@@ -120,26 +120,9 @@ ul.result, ul.timeline {
 }
 
 .break-word {
-    /* word-wrap: break-word; */
     overflow: hidden;
 }
 
 .clear {
     clear: both;
 }
-/*
-div.dashboard {
-    -webkit-border-top-right-radius: 5px;
-    -moz-border-radius-topright: 5px;
-    border-top-right-radius: 5px;
-    height: 600px;
-    overflow: hidden;
-}
-
-div.typing-assessment {
-    position: relative;
-    padding: 3px;
-    z-index: 3;
-    height: 100%;    
-}
-*/
