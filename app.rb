@@ -53,5 +53,6 @@ class TwpistApp < Sinatra::Base
     session.delete :user
     session.delete :token
     session.delete :secret
+    ""
   end
 end
