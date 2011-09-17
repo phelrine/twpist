@@ -5,9 +5,15 @@ $(document).ready(function() {
   $("li.timeline a").click(showTimeline);
   $("li.result a").click(showResult);
   twpist = new Twpist;
-  return $("a.btn.easy").click(function() {
+  $("a.btn.easy").click(function() {
     return twpist.loadAssignment(/[^ぁ-ん]+/g);
   });
+  $("a.logout").click(function() {
+    return $.post("/logout", function() {
+      return location.href = "/";
+    });
+  });
+  return false;
 });
 showTimeline = function() {
   $("ul.result").hide();

@@ -6,6 +6,10 @@ $(document).ready ->
   # $("a.btn.normal").click -> loadAssignment /[^ぁ-ん1-9]+/g
   # $("a.btn.hard").click -> loadAssignment /[^ぁ-ん1-9a-zA-Z]+/g
 
+  $("a.logout").click ->
+    $.post "/logout", -> location.href = "/"
+  false
+
 showTimeline = ->
   $("ul.result").hide()
   $("ul.tabs .active").removeClass "active"
