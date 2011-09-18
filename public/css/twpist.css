@@ -113,10 +113,10 @@ hr.tweet-hr {
 }
 
 ul.result, ul.timeline {
-    list-style: none;
-    margin: 0;
-    padding-top: 18px;
     background-color: white;
+    margin: 0;
+    padding-top: 1em;
+    list-style: none;
 }
 
 .break-word {

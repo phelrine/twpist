@@ -11,7 +11,7 @@
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
 
-    <link href="css/bootstrap-1.2.0.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/twpist.css" rel="stylesheet">
     <link rel="shortcut icon" href="img/icon.gif">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
@@ -34,43 +34,41 @@
     </header>
 
     <div id="main" class="container">
-      <div class="row">
-	    <div class="timeline-container span10 column">
-	      <div class="typing-container">
-            <div class="level-container" style="text-align: center;">
-              <p>レベルを選択してください</p>
-              <a class="btn easy">EASY</a>
-              <a class="btn normal">NORMAL</a>
-              <a class="btn hard">HARD</a>
-            </div>
-            <div class="controller-container" style="display: none;">
-              <div class="popover-wrapper clear">
-                <img class="icon"/>
-                <div class="popover right">
-                  <div class="arrow"></div>
-                  <div class="inner">
-                    <h2 class="typing-assignment" style="background: white;"></h2>
-                  </div>
+	  <div class="timeline-container span10">
+	    <div class="typing-container">
+          <div class="level-container" style="text-align: center;">
+            <p>レベルを選択してください</p>
+            <a class="btn easy">EASY</a>
+            <a class="btn normal">NORMAL</a>
+            <a class="btn hard">HARD</a>
+          </div>
+          <div class="controller-container" style="display: none;">
+            <div class="popover-wrapper clear">
+              <img class="icon"/>
+              <div class="popover right">
+                <div class="arrow"></div>
+                <div class="inner">
+                  <h2 class="typing-assignment" style="background: white;"></h2>
                 </div>
               </div>
-              <div class="clear"></div>
-              <div class="typing-inputarea">
-                <h2 class="input break-word"></h2>
-                <h2 class="fixed break-word"></h2>
-              </div>
-              <h2 class="left-time"></h2>
             </div>
-            <div class="result"></div>
+            <div class="clear"></div>
+            <div class="typing-inputarea">
+              <h2 class="input break-word"></h2>
+              <h2 class="fixed break-word"></h2>
+            </div>
+            <h2 class="left-time"></h2>
           </div>
-	      <ul class="tabs" style="margin-bottom: 0; background-color: whitesmoke;">
-	        <li class="active timeline"><a href="#">タイムライン</a></li>
-	        <li class="result" style="display: none;"><a href="#">結果</a></li>
-	      </ul>
-          <ul class="timeline"></ul>
-          <ul class="result"></ul>
-	    </div>
-	    <div class="ad-container span6 column" style="margin-left: -5px;"></div>
-      </div>
+          <div class="result"></div>
+        </div>
+	    <ul class="tabs" style="background-color: whitesmoke;">
+	      <li class="active timeline"><a href="#">タイムライン</a></li>
+	      <li class="result" style="display: none;"><a href="#">結果</a></li>
+	    </ul>
+        <ul class="timeline"></ul>
+        <ul class="result"></ul>
+	  </div>
+	  <div class="ad-container span6" style="margin-left: -5px;"></div>
     </div>
   </body>
 </html>
