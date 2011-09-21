@@ -69,6 +69,8 @@ class Twpist
     $("div.typing-container img.icon").attr src: status.user.profile_image_url
     $("h2.typing-assignment").text status.text
     $("div.typing-inputarea h2.input").text @traverser.decode()
+    for i in [1..8]
+      $("div.typing-container img.pre#{i}").attr src: @timeline[@index+i].user.profile_image_url
 
   countUp: ->
     @count--

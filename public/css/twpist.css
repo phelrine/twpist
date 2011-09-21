@@ -28,12 +28,14 @@ div.popover-wrapper {
 	-moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
 	box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
 }
-	
+
+div.popover-wrapper div.img-container {
+	padding: 5px 5px 0 5px;
+}
+
 div.popover-wrapper img.icon {
-    margin: 4px;
-    width: 48px;
-    height: 48px;
-    float: left;
+    width: 53px;
+    height: 53px;
 	border-radius: 6px;
 	border: 1px solid silver;
 	-webkit-box-shadow: 0px 1px 1px rgba(0, 0, 0, .1);
@@ -44,12 +46,11 @@ div.popover-wrapper img.icon {
 div.popover-wrapper div.popover {
     display: block;
     position: relative;
-    margin-left: 60px;
 	padding: 5px 10px 5px 5px;	
 }
 
-div.popover.right div.arrow {
-    top: 25px;
+div.popover.below div.arrow {
+    left: 32px;
 }
 
 div.popover div.inner {

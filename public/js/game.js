@@ -80,7 +80,7 @@ Twpist = (function() {
     return false;
   };
   Twpist.prototype.nextAssignment = function() {
-    var name, status;
+    var i, name, status, _results;
     this.index++;
     while (this.timeline[this.index].yomi.length === 0) {
       this.index++;
@@ -99,7 +99,14 @@ Twpist = (function() {
       src: status.user.profile_image_url
     });
     $("h2.typing-assignment").text(status.text);
-    return $("div.typing-inputarea h2.input").text(this.traverser.decode());
+    $("div.typing-inputarea h2.input").text(this.traverser.decode());
+    _results = [];
+    for (i = 1; i <= 8; i++) {
+      _results.push($("div.typing-container img.pre" + i).attr({
+        src: this.timeline[this.index + i].user.profile_image_url
+      }));
+    }
+    return _results;
   };
   Twpist.prototype.countUp = function() {
     this.count--;
