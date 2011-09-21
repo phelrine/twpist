@@ -50,6 +50,7 @@ div.tweet-button-container {
 }
 
 div.timeline-container {
+    margin-left: 0;
     background-color: white;
     position: relative;
     z-index: 1000;
@@ -65,13 +66,6 @@ div.timeline-container {
 div.ad-container {
     position: relative;
     z-index: 0;
-    padding-left: 25px;
-    background: #DDEEF6;
-    background: rgba(221, 238, 246, 0.9);
-    _background-color: #DDEEF6;
-    -webkit-border-top-right-radius: 5px;
-    -moz-border-radius-topright: 5px;
-    border-top-right-radius: 5px;
 }
 
 img.tweet-image {
@@ -125,4 +119,13 @@ ul.result, ul.timeline {
 
 .clear {
     clear: both;
+}
+
+div#main.container {
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    background: #DDEEF6;    
+    background: rgba(221, 238, 246, 0.9);
+    _background-color: #DDEEF6;
 }
