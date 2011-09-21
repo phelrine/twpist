@@ -80,7 +80,7 @@ Twpist = (function() {
     return false;
   };
   Twpist.prototype.nextAssignment = function() {
-    var status;
+    var name, status;
     this.index++;
     while (this.timeline[this.index].yomi.length === 0) {
       this.index++;
@@ -88,6 +88,12 @@ Twpist = (function() {
     status = this.timeline[this.index];
     this.traverser = new RomanizationGraph(status.yomi).traverser();
     this.startTime = new Date;
+    name = $(new EJS({
+      url: "ejs/assignment-head.ejs"
+    }).render({
+      status: this.timeline[this.index]
+    }));
+    $("div.assignment-head").html(name);
     $("div.typing-inputarea h2.fixed").text("");
     $("div.typing-container img.icon").attr({
       src: status.user.profile_image_url

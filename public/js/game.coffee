@@ -63,6 +63,8 @@ class Twpist
     status = @timeline[@index]
     @traverser = new RomanizationGraph(status.yomi).traverser()
     @startTime = new Date
+    name = $(new EJS(url: "ejs/assignment-head.ejs").render(status: @timeline[@index]))
+    $("div.assignment-head").html name
     $("div.typing-inputarea h2.fixed").text ""
     $("div.typing-container img.icon").attr src: status.user.profile_image_url
     $("h2.typing-assignment").text status.text
