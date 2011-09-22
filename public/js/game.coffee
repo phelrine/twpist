@@ -2,9 +2,9 @@ $(document).ready ->
   $("li.timeline a").click showTimeline
   $("li.result a").click showResult
   twpist = new Twpist
-  $("a.btn.easy").click -> twpist.loadAssignment /[^ぁ-ん]+/g
-  $("a.btn.normal").click -> twpist.loadAssignment /[^ぁ-んa-zA-Z]+/g
-  $("a.btn.hard").click -> twpist.loadAssignment /[^ぁ-ん0-9a-zA-Z]+/g
+  $("a.btn.easy").click -> twpist.loadAssignment 1
+  $("a.btn.normal").click -> twpist.loadAssignment 2
+  $("a.btn.hard").click -> twpist.loadAssignment 3
 
   $("a.logout").click ->
     $.post "/logout", -> location.href = "/"
@@ -25,21 +25,46 @@ showResult = ->
   $("ul.tabs li.result").addClass "active"
 
 class Twpist
-  loadAssignment: (regex)->
+  loadAssignment: (level)->
     @index = -1
     @count = 140
     @allType = 0
     $("div.level-container").hide "slow"
 
     $.get "/timeline.json", (timeline)=>
-      status.yomi = status.yomi.replace regex, "" for status in timeline
+      for status in timeline
+        yomi = status.yomi
+        text = status.text
+        if level < 3
+          for url in twttr.txt.extractUrls(yomi)
+            yomi = yomi.replace url, ""
+            text = text.replace url, ""
+
+        if level < 2
+          for hashtag in twttr.txt.extractHashtags(yomi)
+            yomi = yomi.replace "##{hashtag}", ""
+            text = text.replace "##{hashtag}", ""
+          for user in twttr.txt.extractMentions(yomi)
+            yomi = yomi.replace "@#{user}", ""
+            text = text.replace "@#{user}", ""
+
+        if level is 3
+          status.yomi = yomi.replace /[^ぁ-ん0-9a-zA-Z,、.。ー-]+/g, ""
+        else
+          status.yomi = yomi.replace /[^ぁ-ん0-9a-zA-Zー-]+/g, ""
+
+        status.text = text
       @timeline = timeline.reverse()
       @nextAssignment()
 
       $("div.controller-container").show()
 
       $(document).keydown (event)=>
-        chr = String.fromCharCode(event.keyCode).toLowerCase()
+        chr = switch event.keyCode
+          when 188 then ","
+          when 189 then "-"
+          when 190 then "."
+          else String.fromCharCode(event.keyCode).toLowerCase()
         if @traverser.traverse chr
           @allType++
           fixed = $("div.typing-inputarea h2.fixed")

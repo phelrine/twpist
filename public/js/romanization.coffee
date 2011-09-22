@@ -38,7 +38,7 @@ class Dict
     switch typeof code
       when "string" then [code]
       when "undefined"
-        if chr.length is 1 and chr.match /[a-zA-Z0-9]/ then [chr.toLowerCase()] else []
+        if chr.length is 1 and chr.match /[a-zA-Z0-9.,-]/ then [chr.toLowerCase()] else []
       else code
 
 

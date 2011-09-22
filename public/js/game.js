@@ -6,13 +6,13 @@ $(document).ready(function() {
   $("li.result a").click(showResult);
   twpist = new Twpist;
   $("a.btn.easy").click(function() {
-    return twpist.loadAssignment(/[^ぁ-ん]+/g);
+    return twpist.loadAssignment(1);
   });
   $("a.btn.normal").click(function() {
-    return twpist.loadAssignment(/[^ぁ-んa-zA-Z]+/g);
+    return twpist.loadAssignment(2);
   });
   $("a.btn.hard").click(function() {
-    return twpist.loadAssignment(/[^ぁ-ん0-9a-zA-Z]+/g);
+    return twpist.loadAssignment(3);
   });
   $("a.logout").click(function() {
     return $.post("/logout", function() {
@@ -35,23 +35,63 @@ showResult = function() {
 };
 Twpist = (function() {
   function Twpist() {}
-  Twpist.prototype.loadAssignment = function(regex) {
+  Twpist.prototype.loadAssignment = function(level) {
     this.index = -1;
     this.count = 140;
     this.allType = 0;
     $("div.level-container").hide("slow");
     $.get("/timeline.json", __bind(function(timeline) {
-      var status, _i, _len;
+      var hashtag, status, text, url, user, yomi, _i, _j, _k, _l, _len, _len2, _len3, _len4, _ref, _ref2, _ref3;
       for (_i = 0, _len = timeline.length; _i < _len; _i++) {
         status = timeline[_i];
-        status.yomi = status.yomi.replace(regex, "");
+        yomi = status.yomi;
+        text = status.text;
+        if (level < 3) {
+          _ref = twttr.txt.extractUrls(yomi);
+          for (_j = 0, _len2 = _ref.length; _j < _len2; _j++) {
+            url = _ref[_j];
+            yomi = yomi.replace(url, "");
+            text = text.replace(url, "");
+          }
+        }
+        if (level < 2) {
+          _ref2 = twttr.txt.extractHashtags(yomi);
+          for (_k = 0, _len3 = _ref2.length; _k < _len3; _k++) {
+            hashtag = _ref2[_k];
+            yomi = yomi.replace("#" + hashtag, "");
+            text = text.replace("#" + hashtag, "");
+          }
+          _ref3 = twttr.txt.extractMentions(yomi);
+          for (_l = 0, _len4 = _ref3.length; _l < _len4; _l++) {
+            user = _ref3[_l];
+            yomi = yomi.replace("@" + user, "");
+            text = text.replace("@" + user, "");
+          }
+        }
+        if (level === 3) {
+          status.yomi = yomi.replace(/[^ぁ-ん0-9a-zA-Z,、.。ー-]+/g, "");
+        } else {
+          status.yomi = yomi.replace(/[^ぁ-ん0-9a-zA-Zー-]+/g, "");
+        }
+        status.text = text;
       }
       this.timeline = timeline.reverse();
       this.nextAssignment();
       $("div.controller-container").show();
       $(document).keydown(__bind(function(event) {
         var chr, fixed, time, tweet;
-        chr = String.fromCharCode(event.keyCode).toLowerCase();
+        chr = (function() {
+          switch (event.keyCode) {
+            case 188:
+              return ",";
+            case 189:
+              return "-";
+            case 190:
+              return ".";
+            default:
+              return String.fromCharCode(event.keyCode).toLowerCase();
+          }
+        })();
         if (this.traverser.traverse(chr)) {
           this.allType++;
           fixed = $("div.typing-inputarea h2.fixed");

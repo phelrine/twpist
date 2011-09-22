@@ -80,7 +80,7 @@ Dict = (function() {
       case "string":
         return [code];
       case "undefined":
-        if (chr.length === 1 && chr.match(/[a-zA-Z0-9]/)) {
+        if (chr.length === 1 && chr.match(/[a-zA-Z0-9.,-]/)) {
           return [chr.toLowerCase()];
         } else {
           return [];
