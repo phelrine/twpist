@@ -33,16 +33,6 @@ div.popover-wrapper div.img-container {
 	padding: 5px 5px 0 5px;
 }
 
-div.popover-wrapper img.icon {
-    width: 53px;
-    height: 53px;
-	border-radius: 6px;
-	border: 1px solid silver;
-	-webkit-box-shadow: 0px 1px 1px rgba(0, 0, 0, .1);
-	-moz-box-shadow: 0px 1px 1px rgba(0, 0, 0, .1);
-	box-shadow: 0px 1px 1px rgba(0, 0, 0, .1);
-}
-
 div.popover-wrapper div.popover {
     display: block;
     position: relative;
@@ -180,4 +170,14 @@ div#main.container {
     background: #DDEEF6;    
     background: rgba(221, 238, 246, 0.9);
     _background-color: #DDEEF6;
+}
+
+div.img-container img.icon {
+    width: 53px;
+    height: 53px;
+	border-radius: 6px;
+	border: 1px solid silver;
+	-webkit-box-shadow: 0px 1px 1px rgba(0, 0, 0, .1);
+	-moz-box-shadow: 0px 1px 1px rgba(0, 0, 0, .1);
+	box-shadow: 0px 1px 1px rgba(0, 0, 0, .1);
 }

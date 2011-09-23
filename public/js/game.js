@@ -108,6 +108,10 @@ Twpist = (function() {
             }));
             $("ul.timeline").prepend(tweet.hide());
             tweet.show("slow");
+            $("div.img-container img.front").show();
+            $("div.img-container img.pre9").hide();
+            $("div.img-container img.front").hide("normal");
+            $("div.img-container img.pre9").show("slow");
             this.nextAssignment();
           }
           return false;
@@ -135,15 +139,20 @@ Twpist = (function() {
     }));
     $("div.assignment-head").html(name);
     $("div.typing-inputarea h2.fixed").text("");
-    $("div.typing-container img.icon").attr({
-      src: status.user.profile_image_url
-    });
     $("h2.typing-assignment").text(status.text);
     $("div.typing-inputarea h2.input").text(this.traverser.decode());
+    if (this.index - 1 >= 0) {
+      $("div.img-container img.front").attr({
+        src: this.timeline[this.index - 1].user.profile_image_url
+      });
+    }
+    $("div.img-container img.pre1").attr({
+      src: status.user.profile_image_url
+    });
     _results = [];
-    for (i = 1; i <= 8; i++) {
-      _results.push($("div.typing-container img.pre" + i).attr({
-        src: this.timeline[this.index + i].user.profile_image_url
+    for (i = 2; i <= 9; i++) {
+      _results.push($("div.img-container img.pre" + i).attr({
+        src: this.timeline[this.index + i - 1].user.profile_image_url
       }));
     }
     return _results;

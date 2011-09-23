@@ -76,6 +76,10 @@ class Twpist
             tweet = $(new EJS(url: "ejs/tweet.ejs").render(status: @timeline[@index], time: time))
             $("ul.timeline").prepend tweet.hide()
             tweet.show "slow"
+            $("div.img-container img.front").show()
+            $("div.img-container img.pre9").hide()
+            $("div.img-container img.front").hide "normal"
+            $("div.img-container img.pre9").show "slow"
             @nextAssignment()
           false
 
@@ -91,11 +95,13 @@ class Twpist
     name = $(new EJS(url: "ejs/assignment-head.ejs").render(status: @timeline[@index]))
     $("div.assignment-head").html name
     $("div.typing-inputarea h2.fixed").text ""
-    $("div.typing-container img.icon").attr src: status.user.profile_image_url
     $("h2.typing-assignment").text status.text
     $("div.typing-inputarea h2.input").text @traverser.decode()
-    for i in [1..8]
-      $("div.typing-container img.pre#{i}").attr src: @timeline[@index+i].user.profile_image_url
+    if @index-1 >= 0
+      $("div.img-container img.front").attr src: @timeline[@index-1].user.profile_image_url
+    $("div.img-container img.pre1").attr src: status.user.profile_image_url
+    for i in [2..9]
+      $("div.img-container img.pre#{i}").attr src: @timeline[@index+i-1].user.profile_image_url
 
   countUp: ->
     @count--
