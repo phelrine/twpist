@@ -60,9 +60,10 @@ class Twpist
       $("div.controller-container").show()
 
       $(document).keydown (event)=>
+        # console.log event.keyCode
         chr = switch event.keyCode
           when 188 then ","
-          when 189 then "-"
+          when 189, 109 then "-"
           when 190 then "."
           else String.fromCharCode(event.keyCode).toLowerCase()
         if @traverser.traverse chr
@@ -76,7 +77,7 @@ class Twpist
             tweet = $(new EJS(url: "ejs/tweet.ejs").render(status: @timeline[@index], time: time))
             $("ul.timeline").prepend tweet.hide()
             tweet.show "slow"
-            $("div.img-container img.front").show()
+1;2c            $("div.img-container img.front").show()
             $("div.img-container img.pre9").hide()
             $("div.img-container img.front").hide "normal"
             $("div.img-container img.pre9").show "slow"
