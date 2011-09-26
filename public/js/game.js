@@ -80,11 +80,13 @@ Twpist = (function() {
       $("div.controller-container").show();
       $(document).keydown(__bind(function(event) {
         var chr, fixed, time, tweet;
+        console.log(event.keyCode);
         chr = (function() {
           switch (event.keyCode) {
             case 188:
               return ",";
             case 189:
+            case 109:
               return "-";
             case 190:
               return ".";
