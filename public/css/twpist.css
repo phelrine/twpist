@@ -19,24 +19,25 @@ div.typing-container {
 }
 
 div.popover-wrapper {
-	border: 1px solid silver;
-	background: #FEFBF3;
-	-webkit-border-radius: 6px;
-	-moz-border-radius: 6px;
-	border-radius: 6px;
-	-webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
-	-moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
-	box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+    border: 1px solid silver;
+    background: #FEFBF3;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+    -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
 }
 
 div.popover-wrapper div.img-container {
-	padding: 5px 5px 0 5px;
+    padding: 5px 5px 0 5px;
+    height: 60px;
 }
 
 div.popover-wrapper div.popover {
     display: block;
     position: relative;
-	padding: 5px 10px 5px 5px;	
+    padding: 5px 10px 5px 5px;	
 }
 
 div.popover.below div.arrow {
@@ -48,43 +49,43 @@ div.popover div.inner {
 }
 
 div.inner div.assignment-head {
-	background: whiteSmoke;
-	-webkit-border-radius: 3px 3px 0 0;
-	-moz-border-radius: 3px 3px 0 0;
-	border-radius: 3px 3px 0 0;
-	border-bottom: 1px solid #EEE;
-	padding: 5px;
-	font-size: 14px;
-	font-weight: bold;
+    background: whiteSmoke;
+    -webkit-border-radius: 3px 3px 0 0;
+    -moz-border-radius: 3px 3px 0 0;
+    border-radius: 3px 3px 0 0;
+    border-bottom: 1px solid #EEE;
+    padding: 5px;
+    font-size: 14px;
+    font-weight: bold;
 }
 
 div.inner h2.typing-assignment {
-	background: white;
-	padding: 5px;
+    background: white;
+    padding: 5px;
 }
 
 div.inner div.typing-inputarea {
-	-webkit-border-radius: 0 0 3px 3px;
-	-moz-border-radius: 0 0 3px 3px;
-	border-radius: 0 0 3px 3px;
-	background: #D1EED1;
-	padding: 5px 0 5px;
-	border-top: 1px solid #BFE7BF;
+    -webkit-border-radius: 0 0 3px 3px;
+    -moz-border-radius: 0 0 3px 3px;
+    border-radius: 0 0 3px 3px;
+    background: #D1EED1;
+    padding: 5px 0 5px;
+    border-top: 1px solid #BFE7BF;
 }
 
 div.inner h2.input {
-	padding: 5px;
-	border: 1px solid #CCC;
-	-webkit-border-radius: 6px;
-	-moz-border-radius: 6px;
-	border-radius: 6px;
-	-webkit-box-shadow: inset 0 1px 3px rgba(0,0,0,.1);
-	-moz-box-shadow: inset 0 1px 3px rgba(0,0,0,.1);
-	box-shadow: inset 0 1px 3px rgba(0,0,0,.1);
-	background: white;
-	margin: 0 5px 0 5px;
+    padding: 5px;
+    border: 1px solid #CCC;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: inset 0 1px 3px rgba(0,0,0,.1);
+    -moz-box-shadow: inset 0 1px 3px rgba(0,0,0,.1);
+    box-shadow: inset 0 1px 3px rgba(0,0,0,.1);
+    background: white;
+    margin: 0 5px 0 5px;
 }
-	
+
 div.tweet-button-container {
     position: relative;
     text-align: right;
@@ -175,9 +176,9 @@ div#main.container {
 div.img-container img.icon {
     width: 53px;
     height: 53px;
-	border-radius: 6px;
-	border: 1px solid silver;
-	-webkit-box-shadow: 0px 1px 1px rgba(0, 0, 0, .1);
-	-moz-box-shadow: 0px 1px 1px rgba(0, 0, 0, .1);
-	box-shadow: 0px 1px 1px rgba(0, 0, 0, .1);
+    border-radius: 6px;
+    border: 1px solid silver;
+    -webkit-box-shadow: 0px 1px 1px rgba(0, 0, 0, .1);
+    -moz-box-shadow: 0px 1px 1px rgba(0, 0, 0, .1);
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, .1);
 }

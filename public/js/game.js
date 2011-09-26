@@ -115,6 +115,16 @@ Twpist = (function() {
             this.nextAssignment();
           }
           return false;
+        } else {
+          $("div.popover").animate({
+            left: "+=10px"
+          }, 10);
+          $("div.popover").animate({
+            left: "-=20px"
+          }, 20);
+          return $("div.popover").animate({
+            left: "+=10px"
+          }, 10);
         }
       }, this));
       return this.timer = setInterval((__bind(function() {

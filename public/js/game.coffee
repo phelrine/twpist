@@ -82,6 +82,10 @@ class Twpist
             $("div.img-container img.pre9").show "slow"
             @nextAssignment()
           false
+        else
+          $("div.popover").animate left: "+=10px", 10
+          $("div.popover").animate left: "-=20px", 20
+          $("div.popover").animate left: "+=10px", 10
 
       @timer = setInterval((=> @countUp()), 1000)
     false
