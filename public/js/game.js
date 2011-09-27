@@ -41,7 +41,7 @@ Twpist = (function() {
     this.allType = 0;
     $("div.level-container").hide("slow");
     $.get("/timeline.json", __bind(function(timeline) {
-      var hashtag, status, text, url, user, yomi, _i, _j, _k, _l, _len, _len2, _len3, _len4, _ref, _ref2, _ref3;
+      var hashtag, lengthFilter, status, text, url, user, yomi, _i, _j, _k, _l, _len, _len2, _len3, _len4, _ref, _ref2, _ref3;
       for (_i = 0, _len = timeline.length; _i < _len; _i++) {
         status = timeline[_i];
         yomi = status.yomi;
@@ -75,12 +75,28 @@ Twpist = (function() {
         }
         status.text = text;
       }
-      this.timeline = timeline.reverse();
+      this.timeline = timeline.sort(function(a, b) {
+        return a.yomi.length - b.yomi.length;
+      });
+      lengthFilter = function(length) {
+        return __bind(function(tweet) {
+          return tweet.yomi.length > length;
+        }, this);
+      };
+      this.timeline = (function() {
+        switch (level) {
+          case 2:
+            return this.timeline.filter(lengthFilter(10));
+          case 3:
+            return this.timeline.filter(lengthFilter(30));
+          default:
+            return this.timeline;
+        }
+      }).call(this);
       this.nextAssignment();
       $("div.controller-container").show();
       $(document).keydown(__bind(function(event) {
         var chr, fixed, time, tweet;
-        console.log(event.keyCode);
         chr = (function() {
           switch (event.keyCode) {
             case 188:

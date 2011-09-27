@@ -54,7 +54,13 @@ class Twpist
           status.yomi = yomi.replace /[^ぁ-ん0-9a-zA-Zー-]+/g, ""
 
         status.text = text
-      @timeline = timeline.reverse()
+      @timeline = timeline.sort (a, b)-> a.yomi.length - b.yomi.length
+      lengthFilter = (length) -> (tweet)=> tweet.yomi.length > length
+      @timeline = switch(level)
+        when 2 then @timeline.filter lengthFilter(10)
+        when 3 then @timeline.filter lengthFilter(30)
+        else @timeline
+
       @nextAssignment()
 
       $("div.controller-container").show()
@@ -77,7 +83,7 @@ class Twpist
             tweet = $(new EJS(url: "ejs/tweet.ejs").render(status: @timeline[@index], time: time))
             $("ul.timeline").prepend tweet.hide()
             tweet.show "slow"
-1;2c            $("div.img-container img.front").show()
+            $("div.img-container img.front").show()
             $("div.img-container img.pre9").hide()
             $("div.img-container img.front").hide "normal"
             $("div.img-container img.pre9").show "slow"
