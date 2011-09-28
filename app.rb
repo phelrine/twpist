@@ -26,7 +26,8 @@ class TwpistApp < Sinatra::Base
   end
   
   get '/' do
-    "twpist<br><a href='/auth/twitter'>twitter</a><br>"
+    redirect '/home.html'
+    # "twpist<br><a href='/auth/twitter'>twitter</a><br>"
   end
   
   get '/timeline.json' do

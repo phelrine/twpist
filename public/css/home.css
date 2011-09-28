@@ -1,0 +1,43 @@
+div.main-layout {
+    background-color: white;
+    margin-top:60px;
+    margin-bottom:30px;
+    padding: 3px;
+    border: none;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    border-radius:5px;
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+    line-height: 0;
+}
+
+div.mini-layout {
+    background-color: white;
+    height: 149px;
+    margin-bottom: 20px;
+    padding: 3px;
+    border: none;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.398438);
+    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.398438);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.398438);
+    line-height: 0;
+}
+
+img.image {
+    background: #FAFAFA;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.5, #FAFAFA), to(#F2F2F2));
+    background: -moz-linear-gradient(top, #FAFAFA 50%, #F2F2F2);
+    zoom: 1;
+}
+
+
+img.image:hover {
+    background: #FDFDFD;
+    background: -webkit-gradient(linear, left top, left bottom, from(#FDFDFD), to(#FAFAFA));
+    background: -moz-linear-gradient(top, #FDFDFD, #FAFAFA);
+}
