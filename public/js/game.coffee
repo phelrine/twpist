@@ -1,14 +1,36 @@
+twpist = null
+
 $(document).ready ->
   $("li.timeline a").click showTimeline
   $("li.result a").click showResult
   twpist = new Twpist
-  $("a.btn.easy").click -> twpist.loadAssignment 1
-  $("a.btn.normal").click -> twpist.loadAssignment 2
-  $("a.btn.hard").click -> twpist.loadAssignment 3
+  level = 2
+  $("#level-easy").click ->
+    level = 1
+    $("#level-buttons .primary").removeClass("primary")
+    $(@).addClass("primary")
+    $("#level-description").html("ユーザー名(@)、ハッシュタグ(#)、URL、記号が除外された<br>ツイートが出題されます。")
+  $("#level-normal").click ->
+    level = 2
+    $("#level-buttons .primary").removeClass("primary")
+    $(@).addClass("primary")
+    $("#level-description").text("URL、記号が除外されたツイートが出題されます。")
+  $("#level-hard").click ->
+    level = 3
+    $("#level-buttons .primary").removeClass("primary")
+    $(@).addClass("primary")
+    $("#level-description").text("句読点(,.)以外の記号が除外されたツイートが出題されます。")
 
+  $("#start-button").click ->
+    twpist.loadAssignment(level)
   $("a.logout").click ->
     $.post "/logout", -> location.href = "/"
   false
+
+  $("#tweet-button").click ->
+    typeToTweet = new RomanizationGraph("たいぴんぐしてけっかをついーと").traverser()
+
+    $(document).keydown (event) =>
 
 showTimeline = ->
   $("ul.result").hide()

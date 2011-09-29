@@ -36,36 +36,44 @@
 
     <div id="main" class="container">
       <div class="timeline-container span10">
-	<div class="typing-container">
+	    <div class="typing-container">
           <div class="level-container" style="text-align: center;">
-            <p>レベルを選択してください</p>
-            <a class="btn easy">EASY</a>
-            <a class="btn normal">NORMAL</a>
-            <a class="btn hard">HARD</a>
+            <h2>難易度を選択してください</h2>
+            <div id="level-buttons">
+              <button id="level-easy" class="btn">EASY</button>
+              <button id="level-normal" class="btn primary">NORMAL</button>
+              <button id="level-hard" class="btn">HARD</button>
+            </div>
+            <description id="level-description">
+              URL、記号が除外されたツイートが出題されます。
+            </description>
+            <div class="tweet-button-container">
+              <button id="start-button" class="btn primary">スタート</button>
+            </div>
           </div>
           <div class="controller-container" style="display: none;">
             <div class="popover-wrapper clear">
-	      <div class="img-container">
-		<img class="icon front" style="display: none;"/>
-		<img class="icon pre1"/>
-		<img class="icon pre2" style="opacity: 0.8"/>
-		<img class="icon pre3" style="opacity: 0.7"/>
-		<img class="icon pre4" style="opacity: 0.6"/>
-		<img class="icon pre5" style="opacity: 0.5"/>
-		<img class="icon pre6" style="opacity: 0.4"/>
-		<img class="icon pre7" style="opacity: 0.3"/>
-		<img class="icon pre8" style="opacity: 0.2"/>
-		<img class="icon pre9" style="opacity: 0.1"/>
-	      </div>
+	          <div class="img-container">
+		        <img class="icon front" style="display: none;"/>
+		        <img class="icon pre1"/>
+		        <img class="icon pre2" style="opacity: 0.8"/>
+		        <img class="icon pre3" style="opacity: 0.7"/>
+		        <img class="icon pre4" style="opacity: 0.6"/>
+		        <img class="icon pre5" style="opacity: 0.5"/>
+		        <img class="icon pre6" style="opacity: 0.4"/>
+		        <img class="icon pre7" style="opacity: 0.3"/>
+		        <img class="icon pre8" style="opacity: 0.2"/>
+		        <img class="icon pre9" style="opacity: 0.1"/>
+	          </div>
               <div class="popover below">
                 <div class="arrow"></div>
                 <div class="inner">
-		  <div class="assignment-head"></div>
+		          <div class="assignment-head"></div>
                   <h2 class="typing-assignment" style="background: white;"></h2>
-		  <div class="typing-inputarea">
-		    <h2 class="input break-word"></h2>
-		    <h2 class="fixed break-word" style="display: none;"></h2>
-		  </div>
+		          <div class="typing-inputarea">
+		            <h2 class="input break-word"></h2>
+		            <h2 class="fixed break-word" style="display: none;"></h2>
+		          </div>
                 </div>
               </div>
             </div>
@@ -74,18 +82,18 @@
           </div>
           <div class="result"></div>
         </div>
-	<ul class="tabs" style="background-color: whitesmoke;">
-	  <li class="active timeline"><a href="#">タイムライン</a></li>
-	  <li class="result" style="display: none;"><a href="#">結果</a></li>
-	</ul>
+	    <ul class="tabs" style="background-color: whitesmoke;">
+	      <li class="active timeline"><a href="#">タイムライン</a></li>
+	      <li class="result" style="display: none;"><a href="#">結果</a></li>
+	    </ul>
         <ul class="timeline"></ul>
         <ul class="result"></ul>
       </div>
       <div class="ad-container span6">
-	<br>
-	<h1>広告１</h1>
-	<h1>広告２</h1>
-	<h1>広告３</h1>	    
+	    <br>
+	    <h1>広告１</h1>
+	    <h1>広告２</h1>
+	    <h1>広告３</h1>
       </div>
     </div>
   </body>

@@ -1,25 +1,44 @@
-var ProxyStatus, Twpist, showResult, showTimeline;
+var ProxyStatus, Twpist, showResult, showTimeline, twpist;
 var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+twpist = null;
 $(document).ready(function() {
-  var twpist;
+  var level;
   $("li.timeline a").click(showTimeline);
   $("li.result a").click(showResult);
   twpist = new Twpist;
-  $("a.btn.easy").click(function() {
-    return twpist.loadAssignment(1);
+  level = 2;
+  $("#level-easy").click(function() {
+    level = 1;
+    $("#level-buttons .primary").removeClass("primary");
+    $(this).addClass("primary");
+    return $("#level-description").html("ユーザー名(@)、ハッシュタグ(#)、URL、記号が除外された<br>ツイートが出題されます。");
   });
-  $("a.btn.normal").click(function() {
-    return twpist.loadAssignment(2);
+  $("#level-normal").click(function() {
+    level = 2;
+    $("#level-buttons .primary").removeClass("primary");
+    $(this).addClass("primary");
+    return $("#level-description").text("URL、記号が除外されたツイートが出題されます。");
   });
-  $("a.btn.hard").click(function() {
-    return twpist.loadAssignment(3);
+  $("#level-hard").click(function() {
+    level = 3;
+    $("#level-buttons .primary").removeClass("primary");
+    $(this).addClass("primary");
+    return $("#level-description").text("句読点(,.)以外の記号が除外されたツイートが出題されます。");
+  });
+  $("#start-button").click(function() {
+    return twpist.loadAssignment(level);
   });
   $("a.logout").click(function() {
     return $.post("/logout", function() {
       return location.href = "/";
     });
   });
-  return false;
+  false;
+  return $("#tweet-button").click(function() {
+    var typeToTweet;
+    typeToTweet = new RomanizationGraph("たいぴんぐしてけっかをついーと").traverser();
+    return $(document).keydown(__bind(function(event) {}, this));
+  });
 });
 showTimeline = function() {
   $("ul.result").hide();
