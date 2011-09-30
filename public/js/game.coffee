@@ -43,7 +43,8 @@ $(document).ready ->
         $("#problem-romaji").text traverser.decode()
         if traverser.hasFinished()
           location.href = "https://twitter.com/intent/tweet?text=@" + $("input[name=screen_name]").val() + "さんのツイート速度は" +
-            twpist.getTweetPerSecond() + "tweet/secで一日に最高" + twpist.getMaxTweetPerDay() + "ツイートできます。+%23twpist+http://twpist.com/"
+            twpist.getTweetPerSecond() + "tweet/secで一日に最高" + twpist.getMaxTweetPerDay() + "ツイートできます。(レベル:" + twpist.getLevelStr() + ")" +
+            "+%23twpist+http://twpist.com/"
       else
         $("#result-typing").animate left: "+=10px", 10
         $("#result-typing").animate left: "-=20px", 20
@@ -180,6 +181,13 @@ class Twpist
 
   getMaxTweetPerDay: ->
     650 * @index
+
+  getLevelStr: ->
+    switch(@level)
+      when 1 then "EASY"
+      when 2 then "NORMAL"
+      when 3 then "HARD"
+      else "ERROR"
 
 class ProxyStatus
   constructor: (@text, image, screen, name = screen)->
