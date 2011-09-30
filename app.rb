@@ -35,6 +35,10 @@ class TwpistApp < Sinatra::Base
     "sorry"
   end
 
+  not_found do
+    "404"
+  end
+
   get '/' do
     redirect '/home.html'
     # "twpist<br><a href='/auth/twitter'>twitter</a><br>"
