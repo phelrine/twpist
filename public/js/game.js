@@ -1,4 +1,4 @@
-var KeyDownHandler, ProxyStatus, Twpist, showResult, showTimeline, twpist;
+var ProxyStatus, Twpist, showResult, showTimeline, twpist;
 var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 twpist = null;
 $(document).ready(function() {
@@ -33,13 +33,50 @@ $(document).ready(function() {
   });
   false;
   return $("#tweet-button").click(function() {
-    var result;
+    var traverser, typing;
     $(this).hide();
     $("#result-typing").removeClass("hidden");
-    result = new RomanizationGraph("たいぴんぐしてけっかをついーと").traverser();
-    $("#result-typing-text").text("タイピングして結果をツイート");
-    $("#result-typing-romaji").text(result.decode());
-    return $(document).keydown(__bind(function(event) {}, this));
+    typing = $(new EJS({
+      url: "ejs/problem.ejs"
+    }).render({
+      status: new ProxyStatus("タイピングして結果をツイート", "img/icon.gif", "結果")
+    }));
+    $("#result-typing").html(typing);
+    traverser = new RomanizationGraph("たいぴんぐしてけっかをついーと").traverser();
+    $("#problem-romaji").text(traverser.decode());
+    return $(document).keydown(function(event) {
+      var chr;
+      chr = (function() {
+        switch (event.keyCode) {
+          case 188:
+            return ",";
+          case 189:
+          case 109:
+            return "-";
+          case 190:
+            return ".";
+          default:
+            return String.fromCharCode(event.keyCode).toLowerCase();
+        }
+      })();
+      if (traverser.traverse(chr)) {
+        $("#problem-romaji").text(traverser.decode());
+        if (traverser.hasFinished()) {
+          return location.href = "https://twitter.com/intent/tweet?text=" + "さんのツイート速度は" + twpist.getTweetPerSecond() + "tweet/secで一日に最高" + twpist.getMaxTweetPerDay() + "ツイートできます。+%23twpist+http://twpist.com/";
+        }
+      } else {
+        $("#result-typing").animate({
+          left: "+=10px"
+        }, 10);
+        $("#result-typing").animate({
+          left: "-=20px"
+        }, 20);
+        $("#result-typing").animate({
+          left: "+=10px"
+        }, 10);
+        return false;
+      }
+    });
   });
 });
 showTimeline = function() {
@@ -215,6 +252,7 @@ Twpist = (function() {
   Twpist.prototype.result = function() {
     var resultList, tweetEjs;
     clearInterval(this.timer);
+    $("div.popover").remove();
     $("div.controller-container").hide();
     $("ul.tabs li.result").show();
     showResult();
@@ -235,8 +273,14 @@ Twpist = (function() {
       status: new ProxyStatus((140 / this.index).toFixed(3) + "秒/ツイート", "img/icon.gif", "平均ツイート時間")
     }));
     return resultList.append(tweetEjs.render({
-      status: new ProxyStatus(650 * this.index + "ツイート", "img/icon.gif", "一日でツイートできる回数")
+      status: new ProxyStatus(this.getMaxTweetPerDay() + "ツイート", "img/icon.gif", "一日でツイートできる回数")
     }));
+  };
+  Twpist.prototype.getTweetPerSecond = function() {
+    return (this.index / 140).toFixed(2);
+  };
+  Twpist.prototype.getMaxTweetPerDay = function() {
+    return 650 * this.index;
   };
   return Twpist;
 })();

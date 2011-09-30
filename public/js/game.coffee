@@ -29,10 +29,26 @@ $(document).ready ->
   $("#tweet-button").click ->
     $(@).hide()
     $("#result-typing").removeClass "hidden"
-    result = new RomanizationGraph("たいぴんぐしてけっかをついーと").traverser()
-    $("#result-typing-text").text("タイピングして結果をツイート")
-    $("#result-typing-romaji").text(result.decode())
-    $(document).keydown (event) =>
+    typing = $(new EJS(url: "ejs/problem.ejs").render(status: new ProxyStatus "タイピングして結果をツイート", "img/icon.gif", "結果"))
+    $("#result-typing").html typing
+    traverser = new RomanizationGraph("たいぴんぐしてけっかをついーと").traverser()
+    $("#problem-romaji").text traverser.decode()
+    $(document).keydown (event) ->
+      chr = switch event.keyCode
+        when 188 then ","
+        when 189, 109 then "-"
+        when 190 then "."
+        else String.fromCharCode(event.keyCode).toLowerCase()
+      if traverser.traverse chr
+        $("#problem-romaji").text traverser.decode()
+        if traverser.hasFinished()
+          location.href = "https://twitter.com/intent/tweet?text=" + "さんのツイート速度は" +
+            twpist.getTweetPerSecond() + "tweet/secで一日に最高" + twpist.getMaxTweetPerDay() + "ツイートできます。+%23twpist+http://twpist.com/"
+      else
+        $("#result-typing").animate left: "+=10px", 10
+        $("#result-typing").animate left: "-=20px", 20
+        $("#result-typing").animate left: "+=10px", 10
+        false
 
 showTimeline = ->
   $("ul.result").hide()
@@ -142,6 +158,7 @@ class Twpist
 
   result: ->
     clearInterval(@timer)
+    $("div.popover").remove()
     $("div.controller-container").hide()
     $("ul.tabs li.result").show()
     showResult()
@@ -156,8 +173,13 @@ class Twpist
     resultList.append tweetEjs.render
       status: new ProxyStatus (140 / @index).toFixed(3) + "秒/ツイート", "img/icon.gif", "平均ツイート時間"
     resultList.append tweetEjs.render
-      status: new ProxyStatus 650 * @index  + "ツイート", "img/icon.gif", "一日でツイートできる回数"
+      status: new ProxyStatus @getMaxTweetPerDay()  + "ツイート", "img/icon.gif", "一日でツイートできる回数"
 
+  getTweetPerSecond: ->
+    (@index / 140).toFixed(2)
+
+  getMaxTweetPerDay: ->
+    650 * @index
 
 class ProxyStatus
   constructor: (@text, image, screen, name = screen)->
