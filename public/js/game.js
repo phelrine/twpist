@@ -100,69 +100,74 @@ Twpist = (function() {
     this.count = 140;
     this.allType = 0;
     $("div.level-container").hide("slow");
-    $.get("/timeline.json", __bind(function(timeline) {
-      var hashtag, lengthFilter, status, text, url, user, yomi, _i, _j, _k, _l, _len, _len2, _len3, _len4, _ref, _ref2, _ref3;
-      for (_i = 0, _len = timeline.length; _i < _len; _i++) {
-        status = timeline[_i];
-        yomi = status.yomi;
-        text = status.text;
-        if (this.level < 3) {
-          _ref = twttr.txt.extractUrls(yomi);
-          for (_j = 0, _len2 = _ref.length; _j < _len2; _j++) {
-            url = _ref[_j];
-            yomi = yomi.replace(url, "");
-            text = text.replace(url, "");
+    return $.ajax({
+      url: "/timeline.json",
+      error: function(data) {
+        return location.href = "/";
+      },
+      success: __bind(function(timeline) {
+        var hashtag, lengthFilter, status, text, url, user, yomi, _i, _j, _k, _l, _len, _len2, _len3, _len4, _ref, _ref2, _ref3;
+        for (_i = 0, _len = timeline.length; _i < _len; _i++) {
+          status = timeline[_i];
+          yomi = status.yomi;
+          text = status.text;
+          if (this.level < 3) {
+            _ref = twttr.txt.extractUrls(yomi);
+            for (_j = 0, _len2 = _ref.length; _j < _len2; _j++) {
+              url = _ref[_j];
+              yomi = yomi.replace(url, "");
+              text = text.replace(url, "");
+            }
           }
-        }
-        if (this.level < 2) {
-          _ref2 = twttr.txt.extractHashtags(yomi);
-          for (_k = 0, _len3 = _ref2.length; _k < _len3; _k++) {
-            hashtag = _ref2[_k];
-            yomi = yomi.replace("#" + hashtag, "");
-            text = text.replace("#" + hashtag, "");
+          if (this.level < 2) {
+            _ref2 = twttr.txt.extractHashtags(yomi);
+            for (_k = 0, _len3 = _ref2.length; _k < _len3; _k++) {
+              hashtag = _ref2[_k];
+              yomi = yomi.replace("#" + hashtag, "");
+              text = text.replace("#" + hashtag, "");
+            }
+            _ref3 = twttr.txt.extractMentions(yomi);
+            for (_l = 0, _len4 = _ref3.length; _l < _len4; _l++) {
+              user = _ref3[_l];
+              yomi = yomi.replace("@" + user, "");
+              text = text.replace("@" + user, "");
+            }
           }
-          _ref3 = twttr.txt.extractMentions(yomi);
-          for (_l = 0, _len4 = _ref3.length; _l < _len4; _l++) {
-            user = _ref3[_l];
-            yomi = yomi.replace("@" + user, "");
-            text = text.replace("@" + user, "");
+          if (this.level === 3) {
+            status.yomi = yomi.replace(/[^ぁ-ん0-9a-zA-Z,、.。ー-]+/g, "");
+          } else {
+            status.yomi = yomi.replace(/[^ぁ-ん0-9a-zA-Zー-]+/g, "");
           }
+          status.text = text;
         }
-        if (this.level === 3) {
-          status.yomi = yomi.replace(/[^ぁ-ん0-9a-zA-Z,、.。ー-]+/g, "");
-        } else {
-          status.yomi = yomi.replace(/[^ぁ-ん0-9a-zA-Zー-]+/g, "");
-        }
-        status.text = text;
-      }
-      this.timeline = timeline.sort(function(a, b) {
-        return a.yomi.length - b.yomi.length;
-      });
-      lengthFilter = function(length) {
-        return __bind(function(tweet) {
-          return tweet.yomi.length > length;
-        }, this);
-      };
-      this.timeline = (function() {
-        switch (this.level) {
-          case 2:
-            return this.timeline.filter(lengthFilter(10));
-          case 3:
-            return this.timeline.filter(lengthFilter(30));
-          default:
-            return this.timeline;
-        }
-      }).call(this);
-      this.nextAssignment();
-      $("div.controller-container").show();
-      $(document).keydown(__bind(function(event) {
-        return this.keydownFunc(event);
-      }, this));
-      return this.timer = setInterval((__bind(function() {
-        return this.countUp();
-      }, this)), 1000);
-    }, this));
-    return false;
+        this.timeline = timeline.sort(function(a, b) {
+          return a.yomi.length - b.yomi.length;
+        });
+        lengthFilter = function(length) {
+          return __bind(function(tweet) {
+            return tweet.yomi.length > length;
+          }, this);
+        };
+        this.timeline = (function() {
+          switch (this.level) {
+            case 2:
+              return this.timeline.filter(lengthFilter(10));
+            case 3:
+              return this.timeline.filter(lengthFilter(30));
+            default:
+              return this.timeline;
+          }
+        }).call(this);
+        this.nextAssignment();
+        $("div.controller-container").show();
+        $(document).keydown(__bind(function(event) {
+          return this.keydownFunc(event);
+        }, this));
+        return this.timer = setInterval((__bind(function() {
+          return this.countUp();
+        }, this)), 1000);
+      }, this)
+    }, false);
   };
   Twpist.prototype.keydownFunc = function(event) {
     var chr, time, tweet;

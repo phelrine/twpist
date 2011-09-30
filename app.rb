@@ -8,7 +8,7 @@ require 'MeCab'
 require 'pp'
 
 class TwpistApp < Sinatra::Base
-  enable :sessions, :logging
+  enable :logging
 
   configure do
     CONSUMER_KEY, CONSUMER_SECRET = File.open(".consumer").read.split
@@ -23,6 +23,16 @@ class TwpistApp < Sinatra::Base
     def consumer
       @consumer ||= OAuth::Consumer.new(CONSUMER_KEY, CONSUMER_SECRET, :site => "https://api.twitter.com/")
     end
+
+    def logout
+      session.delete :user
+      session.delete :token
+      session.delete :secret
+    end
+  end
+
+  error do
+    "sorry"
   end
 
   get '/' do
@@ -32,7 +42,12 @@ class TwpistApp < Sinatra::Base
 
   get '/timeline.json' do
     if session[:user]
-      rubytter = OAuthRubytter.new(OAuth::AccessToken.new consumer, session[:token], session[:secret])
+      begin
+        rubytter = OAuthRubytter.new(OAuth::AccessToken.new consumer, session[:token], session[:secret])
+      rescue
+        logout if error.message == "Could not authenticate with OAuth."
+        halt 500
+      end
     end
     content_type :json
     rubytter.friends_timeline(:count => 200).to_a.map{|status|
@@ -56,9 +71,7 @@ class TwpistApp < Sinatra::Base
   end
 
   post '/logout' do
-    session.delete :user
-    session.delete :token
-    session.delete :secret
+    logout
     ""
   end
 end

@@ -73,43 +73,46 @@ class Twpist
     @allType = 0
     $("div.level-container").hide "slow"
 
-    $.get "/timeline.json", (timeline)=>
-      for status in timeline
-        yomi = status.yomi
-        text = status.text
-        if @level < 3
-          for url in twttr.txt.extractUrls(yomi)
-            yomi = yomi.replace url, ""
-            text = text.replace url, ""
+    $.ajax
+      url: "/timeline.json"
+      error: (data) -> location.href = "/"
+      success: (timeline)=>
+        for status in timeline
+          yomi = status.yomi
+          text = status.text
+          if @level < 3
+            for url in twttr.txt.extractUrls(yomi)
+              yomi = yomi.replace url, ""
+              text = text.replace url, ""
 
-        if @level < 2
-          for hashtag in twttr.txt.extractHashtags(yomi)
-            yomi = yomi.replace "##{hashtag}", ""
-            text = text.replace "##{hashtag}", ""
-          for user in twttr.txt.extractMentions(yomi)
-            yomi = yomi.replace "@#{user}", ""
-            text = text.replace "@#{user}", ""
+          if @level < 2
+            for hashtag in twttr.txt.extractHashtags(yomi)
+              yomi = yomi.replace "##{hashtag}", ""
+              text = text.replace "##{hashtag}", ""
+            for user in twttr.txt.extractMentions(yomi)
+              yomi = yomi.replace "@#{user}", ""
+              text = text.replace "@#{user}", ""
 
-        if @level is 3
-          status.yomi = yomi.replace /[^ぁ-ん0-9a-zA-Z,、.。ー-]+/g, ""
-        else
-          status.yomi = yomi.replace /[^ぁ-ん0-9a-zA-Zー-]+/g, ""
+          if @level is 3
+            status.yomi = yomi.replace /[^ぁ-ん0-9a-zA-Z,、.。ー-]+/g, ""
+          else
+            status.yomi = yomi.replace /[^ぁ-ん0-9a-zA-Zー-]+/g, ""
 
-        status.text = text
-      @timeline = timeline.sort (a, b)-> a.yomi.length - b.yomi.length
-      lengthFilter = (length) -> (tweet)=> tweet.yomi.length > length
-      @timeline = switch(@level)
-        when 2 then @timeline.filter lengthFilter(10)
-        when 3 then @timeline.filter lengthFilter(30)
-        else @timeline
+          status.text = text
+        @timeline = timeline.sort (a, b)-> a.yomi.length - b.yomi.length
+        lengthFilter = (length) -> (tweet)=> tweet.yomi.length > length
+        @timeline = switch(@level)
+          when 2 then @timeline.filter lengthFilter(10)
+          when 3 then @timeline.filter lengthFilter(30)
+          else @timeline
 
-      @nextAssignment()
+        @nextAssignment()
 
-      $("div.controller-container").show()
+        $("div.controller-container").show()
 
-      $(document).keydown (event)=> @keydownFunc(event)
-      @timer = setInterval((=> @countUp()), 1000)
-    false
+        $(document).keydown (event)=> @keydownFunc(event)
+        @timer = setInterval((=> @countUp()), 1000)
+      false
 
   keydownFunc: (event)->
     # console.log event.keyCode
