@@ -41,3 +41,46 @@ img.image:hover {
     background: -webkit-gradient(linear, left top, left bottom, from(#FDFDFD), to(#FAFAFA));
     background: -moz-linear-gradient(top, #FDFDFD, #FAFAFA);
 }
+
+/* SlideArea
+-------------------------- */
+#slidemask {
+	height: 570px;
+	overflow: hidden;
+	position: relative;
+}
+
+/* PhotoSlideArea
+-------------------------- */
+ul#photo {
+	top: 0;
+	left: 0;
+	margin: 0;
+	width: 2802px;
+	position: absolute;
+}
+ul#photo li {
+	float: left;
+	position: relative;
+	list-style: none;	
+}
+
+/* CSS3 PhotoSlideAnimation
+-------------------------- */
+@-webkit-keyframes AutoSlidePhoto {
+	0% {left: 0;}
+
+	28% {left: 0;}
+	33% {left: -934px;}
+
+	61% {left: -934px;}
+	66% {left: -1868px;}
+
+	94% {left: -1868px;}
+	100% {left: 0;}
+}
+ul#photo {
+	-webkit-animation-name: AutoSlidePhoto;
+	-webkit-animation-duration: 20s;
+	-webkit-animation-iteration-count:infinite;
+}
