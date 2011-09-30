@@ -2,31 +2,29 @@ var ProxyStatus, Twpist, showResult, showTimeline, twpist;
 var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 twpist = null;
 $(document).ready(function() {
-  var level;
   $("li.timeline a").click(showTimeline);
   $("li.result a").click(showResult);
-  twpist = new Twpist;
-  level = 2;
+  twpist = new Twpist(2);
   $("#level-easy").click(function() {
-    level = 1;
+    twpist.level = 1;
     $("#level-buttons .primary").removeClass("primary");
     $(this).addClass("primary");
     return $("#level-description").html("ユーザー名(@)、ハッシュタグ(#)、URL、記号が除外された<br>ツイートが出題されます。");
   });
   $("#level-normal").click(function() {
-    level = 2;
+    twpist.level = 2;
     $("#level-buttons .primary").removeClass("primary");
     $(this).addClass("primary");
     return $("#level-description").text("URL、記号が除外されたツイートが出題されます。");
   });
   $("#level-hard").click(function() {
-    level = 3;
+    twpist.level = 3;
     $("#level-buttons .primary").removeClass("primary");
     $(this).addClass("primary");
     return $("#level-description").text("句読点(,.)以外の記号が除外されたツイートが出題されます。");
   });
   $("#start-button").click(function() {
-    return twpist.loadAssignment(level);
+    return twpist.loadAssignment();
   });
   $("a.logout").click(function() {
     return $.post("/logout", function() {
@@ -53,8 +51,10 @@ showResult = function() {
   return $("ul.tabs li.result").addClass("active");
 };
 Twpist = (function() {
-  function Twpist() {}
-  Twpist.prototype.loadAssignment = function(level) {
+  function Twpist(level) {
+    this.level = level;
+  }
+  Twpist.prototype.loadAssignment = function() {
     this.index = -1;
     this.count = 140;
     this.allType = 0;
@@ -65,7 +65,7 @@ Twpist = (function() {
         status = timeline[_i];
         yomi = status.yomi;
         text = status.text;
-        if (level < 3) {
+        if (this.level < 3) {
           _ref = twttr.txt.extractUrls(yomi);
           for (_j = 0, _len2 = _ref.length; _j < _len2; _j++) {
             url = _ref[_j];
@@ -73,7 +73,7 @@ Twpist = (function() {
             text = text.replace(url, "");
           }
         }
-        if (level < 2) {
+        if (this.level < 2) {
           _ref2 = twttr.txt.extractHashtags(yomi);
           for (_k = 0, _len3 = _ref2.length; _k < _len3; _k++) {
             hashtag = _ref2[_k];
@@ -87,7 +87,7 @@ Twpist = (function() {
             text = text.replace("@" + user, "");
           }
         }
-        if (level === 3) {
+        if (this.level === 3) {
           status.yomi = yomi.replace(/[^ぁ-ん0-9a-zA-Z,、.。ー-]+/g, "");
         } else {
           status.yomi = yomi.replace(/[^ぁ-ん0-9a-zA-Zー-]+/g, "");
@@ -103,7 +103,7 @@ Twpist = (function() {
         }, this);
       };
       this.timeline = (function() {
-        switch (level) {
+        switch (this.level) {
           case 2:
             return this.timeline.filter(lengthFilter(10));
           case 3:
@@ -115,60 +115,63 @@ Twpist = (function() {
       this.nextAssignment();
       $("div.controller-container").show();
       $(document).keydown(__bind(function(event) {
-        var chr, fixed, time, tweet;
-        chr = (function() {
-          switch (event.keyCode) {
-            case 188:
-              return ",";
-            case 189:
-            case 109:
-              return "-";
-            case 190:
-              return ".";
-            default:
-              return String.fromCharCode(event.keyCode).toLowerCase();
-          }
-        })();
-        if (this.traverser.traverse(chr)) {
-          this.allType++;
-          fixed = $("div.typing-inputarea h2.fixed");
-          fixed.text(this.traverser.getFixedText());
-          fixed.scrollLeft(fixed.get(0).scrollWidth);
-          $("div.typing-inputarea h2.input").text(this.traverser.decode());
-          if (this.traverser.hasFinished()) {
-            time = new Date() - this.startTime;
-            tweet = $(new EJS({
-              url: "ejs/tweet.ejs"
-            }).render({
-              status: this.timeline[this.index],
-              time: time
-            }));
-            $("ul.timeline").prepend(tweet.hide());
-            tweet.show("slow");
-            $("div.img-container img.front").show();
-            $("div.img-container img.pre9").hide();
-            $("div.img-container img.front").hide("normal");
-            $("div.img-container img.pre9").show("slow");
-            this.nextAssignment();
-          }
-          return false;
-        } else {
-          $("div.popover").animate({
-            left: "+=10px"
-          }, 10);
-          $("div.popover").animate({
-            left: "-=20px"
-          }, 20);
-          return $("div.popover").animate({
-            left: "+=10px"
-          }, 10);
-        }
+        return this.keydownFunc(event);
       }, this));
       return this.timer = setInterval((__bind(function() {
         return this.countUp();
       }, this)), 1000);
     }, this));
     return false;
+  };
+  Twpist.prototype.keydownFunc = function(event) {
+    var chr, fixed, time, tweet;
+    chr = (function() {
+      switch (event.keyCode) {
+        case 188:
+          return ",";
+        case 189:
+        case 109:
+          return "-";
+        case 190:
+          return ".";
+        default:
+          return String.fromCharCode(event.keyCode).toLowerCase();
+      }
+    })();
+    if (this.traverser.traverse(chr)) {
+      this.allType++;
+      fixed = $("div.typing-inputarea h2.fixed");
+      fixed.text(this.traverser.getFixedText());
+      fixed.scrollLeft(fixed.get(0).scrollWidth);
+      $("div.typing-inputarea h2.input").text(this.traverser.decode());
+      if (this.traverser.hasFinished()) {
+        time = new Date() - this.startTime;
+        tweet = $(new EJS({
+          url: "ejs/tweet.ejs"
+        }).render({
+          status: this.timeline[this.index],
+          time: time
+        }));
+        $("ul.timeline").prepend(tweet.hide());
+        tweet.show("slow");
+        $("div.img-container img.front").show();
+        $("div.img-container img.pre9").hide();
+        $("div.img-container img.front").hide("normal");
+        $("div.img-container img.pre9").show("slow");
+        this.nextAssignment();
+        return false;
+      }
+    } else {
+      $("div.popover").animate({
+        left: "+=10px"
+      }, 10);
+      $("div.popover").animate({
+        left: "-=20px"
+      }, 20);
+      return $("div.popover").animate({
+        left: "+=10px"
+      }, 10);
+    }
   };
   Twpist.prototype.nextAssignment = function() {
     var i, name, status, _results;

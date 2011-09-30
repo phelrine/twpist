@@ -3,26 +3,25 @@ twpist = null
 $(document).ready ->
   $("li.timeline a").click showTimeline
   $("li.result a").click showResult
-  twpist = new Twpist
-  level = 2
+  twpist = new Twpist(2)
   $("#level-easy").click ->
-    level = 1
+    twpist.level = 1
     $("#level-buttons .primary").removeClass("primary")
     $(@).addClass("primary")
     $("#level-description").html("ユーザー名(@)、ハッシュタグ(#)、URL、記号が除外された<br>ツイートが出題されます。")
   $("#level-normal").click ->
-    level = 2
+    twpist.level = 2
     $("#level-buttons .primary").removeClass("primary")
     $(@).addClass("primary")
     $("#level-description").text("URL、記号が除外されたツイートが出題されます。")
   $("#level-hard").click ->
-    level = 3
+    twpist.level = 3
     $("#level-buttons .primary").removeClass("primary")
     $(@).addClass("primary")
     $("#level-description").text("句読点(,.)以外の記号が除外されたツイートが出題されます。")
 
   $("#start-button").click ->
-    twpist.loadAssignment(level)
+    twpist.loadAssignment()
   $("a.logout").click ->
     $.post "/logout", -> location.href = "/"
   false
@@ -47,7 +46,8 @@ showResult = ->
   $("ul.tabs li.result").addClass "active"
 
 class Twpist
-  loadAssignment: (level)->
+  constructor: (@level)->
+  loadAssignment: ->
     @index = -1
     @count = 140
     @allType = 0
@@ -57,12 +57,12 @@ class Twpist
       for status in timeline
         yomi = status.yomi
         text = status.text
-        if level < 3
+        if @level < 3
           for url in twttr.txt.extractUrls(yomi)
             yomi = yomi.replace url, ""
             text = text.replace url, ""
 
-        if level < 2
+        if @level < 2
           for hashtag in twttr.txt.extractHashtags(yomi)
             yomi = yomi.replace "##{hashtag}", ""
             text = text.replace "##{hashtag}", ""
@@ -70,7 +70,7 @@ class Twpist
             yomi = yomi.replace "@#{user}", ""
             text = text.replace "@#{user}", ""
 
-        if level is 3
+        if @level is 3
           status.yomi = yomi.replace /[^ぁ-ん0-9a-zA-Z,、.。ー-]+/g, ""
         else
           status.yomi = yomi.replace /[^ぁ-ん0-9a-zA-Zー-]+/g, ""
@@ -78,7 +78,7 @@ class Twpist
         status.text = text
       @timeline = timeline.sort (a, b)-> a.yomi.length - b.yomi.length
       lengthFilter = (length) -> (tweet)=> tweet.yomi.length > length
-      @timeline = switch(level)
+      @timeline = switch(@level)
         when 2 then @timeline.filter lengthFilter(10)
         when 3 then @timeline.filter lengthFilter(30)
         else @timeline
@@ -87,37 +87,39 @@ class Twpist
 
       $("div.controller-container").show()
 
-      $(document).keydown (event)=>
-        # console.log event.keyCode
-        chr = switch event.keyCode
-          when 188 then ","
-          when 189, 109 then "-"
-          when 190 then "."
-          else String.fromCharCode(event.keyCode).toLowerCase()
-        if @traverser.traverse chr
-          @allType++
-          fixed = $("div.typing-inputarea h2.fixed")
-          fixed.text @traverser.getFixedText()
-          fixed.scrollLeft fixed.get(0).scrollWidth
-          $("div.typing-inputarea h2.input").text @traverser.decode()
-          if @traverser.hasFinished()
-            time = new Date() - @startTime
-            tweet = $(new EJS(url: "ejs/tweet.ejs").render(status: @timeline[@index], time: time))
-            $("ul.timeline").prepend tweet.hide()
-            tweet.show "slow"
-            $("div.img-container img.front").show()
-            $("div.img-container img.pre9").hide()
-            $("div.img-container img.front").hide "normal"
-            $("div.img-container img.pre9").show "slow"
-            @nextAssignment()
-          false
-        else
-          $("div.popover").animate left: "+=10px", 10
-          $("div.popover").animate left: "-=20px", 20
-          $("div.popover").animate left: "+=10px", 10
-
+      $(document).keydown (event)=> @keydownFunc(event)
       @timer = setInterval((=> @countUp()), 1000)
     false
+
+  keydownFunc: (event)->
+    # console.log event.keyCode
+    chr = switch event.keyCode
+      when 188 then ","
+      when 189, 109 then "-"
+      when 190 then "."
+      else String.fromCharCode(event.keyCode).toLowerCase()
+    if @traverser.traverse chr
+      @allType++
+      fixed = $("div.typing-inputarea h2.fixed")
+      fixed.text @traverser.getFixedText()
+      fixed.scrollLeft fixed.get(0).scrollWidth
+      $("div.typing-inputarea h2.input").text @traverser.decode()
+      if @traverser.hasFinished()
+        time = new Date() - @startTime
+        tweet = $(new EJS(url: "ejs/tweet.ejs").render(status: @timeline[@index], time: time))
+        $("ul.timeline").prepend tweet.hide()
+        tweet.show "slow"
+        $("div.img-container img.front").show()
+        $("div.img-container img.pre9").hide()
+        $("div.img-container img.front").hide "normal"
+        $("div.img-container img.pre9").show "slow"
+        @nextAssignment()
+        false
+    else
+       $("div.popover").animate left: "+=10px", 10
+       $("div.popover").animate left: "-=20px", 20
+       $("div.popover").animate left: "+=10px", 10
+
 
   nextAssignment: ->
     @index++
