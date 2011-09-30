@@ -79,10 +79,27 @@ ul#photo li {
 	94% {left: -1868px;}
 	100% {left: 0;}
 }
+
+@-moz-keyframes AutoSlidePhoto {
+	0% {left: 0;}
+
+	28% {left: 0;}
+	33% {left: -934px;}
+
+	61% {left: -934px;}
+	66% {left: -1868px;}
+
+	94% {left: -1868px;}
+	100% {left: 0;}
+}
+
 ul#photo {
 	-webkit-animation-name: AutoSlidePhoto;
 	-webkit-animation-duration: 20s;
 	-webkit-animation-iteration-count:infinite;
+	-moz-animation-name: AutoSlidePhoto;
+	-moz-animation-duration: 20s;
+	-moz-animation-iteration-count:infinite;	
 }
 
 @-webkit-keyframes Pop {
@@ -95,10 +112,24 @@ ul#photo {
     100% {top: -100px;}
 }
 
+@-moz-keyframes Pop {
+    0% {opacity: 0; top: -100px;}
+    39% {top: -100px;}
+    40% {opacity: 0; top: 0px;}
+    45% {opacity: 0.8; top: 45px;}
+    94% {opacity: 0.8; top: 45px;}
+    99% {opacity: 0; top: 0px;}
+    100% {top: -100px;}
+}
+
 #signin {
+    top: -100px;
     -webkit-animation-name: Pop;
     -webkit-animation-duration: 20s;
     -webkit-animation-iteration-count: infinite;
+    -moz-animation-name: Pop;
+    -moz-animation-duration: 20s;
+    -moz-animation-iteration-count: infinite;
 }
 
 div#signin .twipsy-arrow {
@@ -108,5 +139,6 @@ div#signin .twipsy-inner {
     border: 1px solid #0064cd;
     background: #0064cd;
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0.5, #0064cd), to(#0049cd));
+    background: -moz-gradient(linear, left top, left bottom, color-stop(0.5, #0064cd), to(#0049cd));    
     text-shadow: 0px -1px 0px #000;
 }
