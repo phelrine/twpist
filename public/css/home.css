@@ -84,3 +84,29 @@ ul#photo {
 	-webkit-animation-duration: 20s;
 	-webkit-animation-iteration-count:infinite;
 }
+
+@-webkit-keyframes Pop {
+    0% {opacity: 0; top: -100px;}
+    39% {top: -100px;}
+    40% {opacity: 0; top: 0px;}
+    45% {opacity: 0.8; top: 45px;}
+    94% {opacity: 0.8; top: 45px;}
+    99% {opacity: 0; top: 0px;}
+    100% {top: -100px;}
+}
+
+#signin {
+    -webkit-animation-name: Pop;
+    -webkit-animation-duration: 20s;
+    -webkit-animation-iteration-count: infinite;
+}
+
+div#signin .twipsy-arrow {
+    border-bottom: 5px solid #0064cd;
+}
+div#signin .twipsy-inner {
+    border: 1px solid #0064cd;
+    background: #0064cd;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.5, #0064cd), to(#0049cd));
+    text-shadow: 0px -1px 0px #000;
+}
