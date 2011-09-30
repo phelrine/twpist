@@ -40,8 +40,8 @@ class TwpistApp < Sinatra::Base
   end
 
   get '/' do
-    redirect '/home.html'
-    # "twpist<br><a href='/auth/twitter'>twitter</a><br>"
+    redirect '/game' if session[:user]
+    erb :index
   end
 
   get '/timeline.json' do
