@@ -27,8 +27,11 @@ $(document).ready ->
   false
 
   $("#tweet-button").click ->
-    typeToTweet = new RomanizationGraph("たいぴんぐしてけっかをついーと").traverser()
-
+    $(@).hide()
+    $("#result-typing").removeClass "hidden"
+    result = new RomanizationGraph("たいぴんぐしてけっかをついーと").traverser()
+    $("#result-typing-text").text("タイピングして結果をツイート")
+    $("#result-typing-romaji").text(result.decode())
     $(document).keydown (event) =>
 
 showTimeline = ->
@@ -42,7 +45,7 @@ showResult = ->
   $("ul.timeline").hide()
   $("ul.tabs .active").removeClass "active"
 
-  $("ul.result").show()
+  $(".result").removeClass "hidden"
   $("ul.tabs li.result").addClass "active"
 
 class Twpist
@@ -100,10 +103,7 @@ class Twpist
       else String.fromCharCode(event.keyCode).toLowerCase()
     if @traverser.traverse chr
       @allType++
-      fixed = $("div.typing-inputarea h2.fixed")
-      fixed.text @traverser.getFixedText()
-      fixed.scrollLeft fixed.get(0).scrollWidth
-      $("div.typing-inputarea h2.input").text @traverser.decode()
+      $("#problem-romaji").text @traverser.decode()
       if @traverser.hasFinished()
         time = new Date() - @startTime
         tweet = $(new EJS(url: "ejs/tweet.ejs").render(status: @timeline[@index], time: time))
@@ -127,11 +127,8 @@ class Twpist
     status = @timeline[@index]
     @traverser = new RomanizationGraph(status.yomi).traverser()
     @startTime = new Date
-    name = $(new EJS(url: "ejs/assignment-head.ejs").render(status: @timeline[@index]))
-    $("div.assignment-head").html name
-    $("div.typing-inputarea h2.fixed").text ""
-    $("h2.typing-assignment").text status.text
-    $("div.typing-inputarea h2.input").text @traverser.decode()
+    $("#problem-container").html $(new EJS(url: "ejs/problem.ejs").render(status: @timeline[@index]))
+    $("#problem-romaji").text @traverser.decode()
     if @index-1 >= 0
       $("div.img-container img.front").attr src: @timeline[@index-1].user.profile_image_url
     $("div.img-container img.pre1").attr src: status.user.profile_image_url
@@ -140,7 +137,7 @@ class Twpist
 
   countUp: ->
     @count--
-    $("h2.left-time").text @count
+    $("#left-time").text @count
     @result() if @count is 0
 
   result: ->
@@ -148,9 +145,6 @@ class Twpist
     $("div.controller-container").hide()
     $("ul.tabs li.result").show()
     showResult()
-
-    resultEjs = new EJS(url: "ejs/result_tweet.ejs")
-    $("div.typing-container div.result").append resultEjs.render()
     tweetEjs = new EJS(url: "ejs/tweet.ejs")
     resultList = $("ul.result")
     resultList.append tweetEjs.render

@@ -58,11 +58,12 @@ div.popover.below div.arrow {
     left: 32px;
 }
 
+
 div.popover div.inner {
     width: 100%;
 }
 
-div.inner div.assignment-head {
+#problem-header {
     background: whiteSmoke;
     -webkit-border-radius: 3px 3px 0 0;
     -moz-border-radius: 3px 3px 0 0;
@@ -73,12 +74,12 @@ div.inner div.assignment-head {
     font-weight: bold;
 }
 
-div.inner h2.typing-assignment {
+#problem-text {
     background: white;
     padding: 5px;
 }
 
-div.inner div.typing-inputarea {
+#problem-input {
     -webkit-border-radius: 0 0 3px 3px;
     -moz-border-radius: 0 0 3px 3px;
     border-radius: 0 0 3px 3px;
@@ -87,7 +88,7 @@ div.inner div.typing-inputarea {
     border-top: 1px solid #BFE7BF;
 }
 
-div.inner h2.input {
+#problem-romaji {
     padding: 5px;
     border: 1px solid #CCC;
     -webkit-border-radius: 6px;
@@ -176,6 +177,18 @@ ul.result, ul.timeline {
 
 .clear {
     clear: both;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    text-align: right;
+}
+
+.hidden {
+    display: none;
 }
 
 div#main.container {

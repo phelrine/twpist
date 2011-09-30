@@ -1,4 +1,4 @@
-var ProxyStatus, Twpist, showResult, showTimeline, twpist;
+var KeyDownHandler, ProxyStatus, Twpist, showResult, showTimeline, twpist;
 var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 twpist = null;
 $(document).ready(function() {
@@ -33,8 +33,12 @@ $(document).ready(function() {
   });
   false;
   return $("#tweet-button").click(function() {
-    var typeToTweet;
-    typeToTweet = new RomanizationGraph("たいぴんぐしてけっかをついーと").traverser();
+    var result;
+    $(this).hide();
+    $("#result-typing").removeClass("hidden");
+    result = new RomanizationGraph("たいぴんぐしてけっかをついーと").traverser();
+    $("#result-typing-text").text("タイピングして結果をツイート");
+    $("#result-typing-romaji").text(result.decode());
     return $(document).keydown(__bind(function(event) {}, this));
   });
 });
@@ -47,7 +51,7 @@ showTimeline = function() {
 showResult = function() {
   $("ul.timeline").hide();
   $("ul.tabs .active").removeClass("active");
-  $("ul.result").show();
+  $(".result").removeClass("hidden");
   return $("ul.tabs li.result").addClass("active");
 };
 Twpist = (function() {
@@ -124,7 +128,7 @@ Twpist = (function() {
     return false;
   };
   Twpist.prototype.keydownFunc = function(event) {
-    var chr, fixed, time, tweet;
+    var chr, time, tweet;
     chr = (function() {
       switch (event.keyCode) {
         case 188:
@@ -140,10 +144,7 @@ Twpist = (function() {
     })();
     if (this.traverser.traverse(chr)) {
       this.allType++;
-      fixed = $("div.typing-inputarea h2.fixed");
-      fixed.text(this.traverser.getFixedText());
-      fixed.scrollLeft(fixed.get(0).scrollWidth);
-      $("div.typing-inputarea h2.input").text(this.traverser.decode());
+      $("#problem-romaji").text(this.traverser.decode());
       if (this.traverser.hasFinished()) {
         time = new Date() - this.startTime;
         tweet = $(new EJS({
@@ -174,7 +175,7 @@ Twpist = (function() {
     }
   };
   Twpist.prototype.nextAssignment = function() {
-    var i, name, status, _results;
+    var i, status, _results;
     this.index++;
     while (this.timeline[this.index].yomi.length === 0) {
       this.index++;
@@ -182,15 +183,12 @@ Twpist = (function() {
     status = this.timeline[this.index];
     this.traverser = new RomanizationGraph(status.yomi).traverser();
     this.startTime = new Date;
-    name = $(new EJS({
-      url: "ejs/assignment-head.ejs"
+    $("#problem-container").html($(new EJS({
+      url: "ejs/problem.ejs"
     }).render({
       status: this.timeline[this.index]
-    }));
-    $("div.assignment-head").html(name);
-    $("div.typing-inputarea h2.fixed").text("");
-    $("h2.typing-assignment").text(status.text);
-    $("div.typing-inputarea h2.input").text(this.traverser.decode());
+    })));
+    $("#problem-romaji").text(this.traverser.decode());
     if (this.index - 1 >= 0) {
       $("div.img-container img.front").attr({
         src: this.timeline[this.index - 1].user.profile_image_url
@@ -209,21 +207,17 @@ Twpist = (function() {
   };
   Twpist.prototype.countUp = function() {
     this.count--;
-    $("h2.left-time").text(this.count);
+    $("#left-time").text(this.count);
     if (this.count === 0) {
       return this.result();
     }
   };
   Twpist.prototype.result = function() {
-    var resultEjs, resultList, tweetEjs;
+    var resultList, tweetEjs;
     clearInterval(this.timer);
     $("div.controller-container").hide();
     $("ul.tabs li.result").show();
     showResult();
-    resultEjs = new EJS({
-      url: "ejs/result_tweet.ejs"
-    });
-    $("div.typing-container div.result").append(resultEjs.render());
     tweetEjs = new EJS({
       url: "ejs/tweet.ejs"
     });

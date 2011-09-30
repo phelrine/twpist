@@ -67,20 +67,22 @@
 	          </div>
               <div class="popover below">
                 <div class="arrow"></div>
-                <div class="inner">
-		          <div class="assignment-head"></div>
-                  <h2 class="typing-assignment" style="background: white;"></h2>
-		          <div class="typing-inputarea">
-		            <h2 class="input break-word"></h2>
-		            <h2 class="fixed break-word" style="display: none;"></h2>
-		          </div>
-                </div>
+                <div id="problem-container" class="inner"></div>
               </div>
             </div>
             <div class="clear"></div>
-            <h2 class="left-time"></h2>
           </div>
-          <div class="result"></div>
+          <div class="result hidden">
+            <h2 style="margin-bottom: 5px;">結果はどうだった？</h2>
+            <textarea id="textarea"	name="textarea" style="resize: vertical; width: 528px;">#twpist</textarea>
+            <div class="tweet-button-container">
+              <button id="tweet-button" class="btn">結果をツイートする</button>
+            </div>
+            <div id="result-typing" class="hidden">
+              <h2 id="result-typing-text"></h2>
+              <h2 id="result-typing-romaji"></h2>
+            </div>
+          </div>
         </div>
 	    <ul class="tabs" style="background-color: whitesmoke;">
 	      <li class="active timeline"><a href="#">タイムライン</a></li>
