@@ -44,6 +44,7 @@ $(document).ready(function() {
     $("#result-typing").html(typing);
     traverser = new RomanizationGraph("たいぴんぐしてけっかをついーと").traverser();
     $("#problem-romaji").text(traverser.decode());
+    $(document).unbind("keydown", twpist.keydownFunc);
     return $(document).keydown(function(event) {
       var chr;
       chr = (function() {
@@ -62,7 +63,8 @@ $(document).ready(function() {
       if (traverser.traverse(chr)) {
         $("#problem-romaji").text(traverser.decode());
         if (traverser.hasFinished()) {
-          return location.href = "https://twitter.com/intent/tweet?text=@" + $("input[name=screen_name]").val() + "さんのツイート速度は" + twpist.getTweetPerSecond() + "tweet/secで一日に最高" + twpist.getMaxTweetPerDay() + "ツイートできます。(レベル:" + twpist.getLevelStr() + ")" + "+%23twpist+http://twpist.com/";
+          $("#result-typing").remove();
+          return window.open("https://twitter.com/intent/tweet?text=@" + $("input[name=screen_name]").val() + "さんのツイート速度は" + twpist.getTweetPerSecond() + "tweet/secで一日に最高" + twpist.getMaxTweetPerDay() + "ツイートできます。(レベル:" + twpist.getLevelStr() + ")" + "+%23twpist+http://twpist.com/");
         }
       } else {
         $("#result-typing").animate({
@@ -94,10 +96,10 @@ showResult = function() {
 Twpist = (function() {
   function Twpist(level) {
     this.level = level;
+    this.keydownFunc = __bind(this.keydownFunc, this);
   }
   Twpist.prototype.loadAssignment = function() {
     this.index = -1;
-    this.count = 140;
     this.allType = 0;
     $("div.level-container").hide("slow");
     return $.ajax({
@@ -159,13 +161,12 @@ Twpist = (function() {
           }
         }).call(this);
         this.nextAssignment();
+        this.endTime = new Date((new Date).getTime() + 140000);
         $("div.controller-container").show();
-        $(document).keydown(__bind(function(event) {
-          return this.keydownFunc(event);
-        }, this));
+        $(document).keydown(this.keydownFunc);
         return this.timer = setInterval((__bind(function() {
-          return this.countUp();
-        }, this)), 1000);
+          return this.countDown();
+        }, this)), 100);
       }, this)
     }, false);
   };
@@ -247,10 +248,11 @@ Twpist = (function() {
     }
     return _results;
   };
-  Twpist.prototype.countUp = function() {
-    this.count--;
-    $("#left-time").text(this.count);
-    if (this.count === 0) {
+  Twpist.prototype.countDown = function() {
+    var leftTime;
+    leftTime = Math.ceil((this.endTime - new Date) / 1000);
+    $("#left-time").text(leftTime);
+    if (leftTime < 0) {
       return this.result();
     }
   };

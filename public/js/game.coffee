@@ -33,6 +33,7 @@ $(document).ready ->
     $("#result-typing").html typing
     traverser = new RomanizationGraph("たいぴんぐしてけっかをついーと").traverser()
     $("#problem-romaji").text traverser.decode()
+    $(document).unbind("keydown", twpist.keydownFunc)
     $(document).keydown (event) ->
       chr = switch event.keyCode
         when 188 then ","
@@ -42,7 +43,8 @@ $(document).ready ->
       if traverser.traverse chr
         $("#problem-romaji").text traverser.decode()
         if traverser.hasFinished()
-          location.href = "https://twitter.com/intent/tweet?text=@" + $("input[name=screen_name]").val() + "さんのツイート速度は" +
+          $("#result-typing").remove()
+          window.open "https://twitter.com/intent/tweet?text=@" + $("input[name=screen_name]").val() + "さんのツイート速度は" +
             twpist.getTweetPerSecond() + "tweet/secで一日に最高" + twpist.getMaxTweetPerDay() + "ツイートできます。(レベル:" + twpist.getLevelStr() + ")" +
             "+%23twpist+http://twpist.com/"
       else
@@ -69,7 +71,6 @@ class Twpist
   constructor: (@level)->
   loadAssignment: ->
     @index = -1
-    @count = 140
     @allType = 0
     $("div.level-container").hide "slow"
 
@@ -107,14 +108,14 @@ class Twpist
           else @timeline
 
         @nextAssignment()
-
+        @endTime = new Date((new Date).getTime() + 140000)
         $("div.controller-container").show()
 
-        $(document).keydown (event)=> @keydownFunc(event)
-        @timer = setInterval((=> @countUp()), 1000)
+        $(document).keydown @keydownFunc
+        @timer = setInterval((=> @countDown()), 100)
       false
 
-  keydownFunc: (event)->
+  keydownFunc: (event)=>
     # console.log event.keyCode
     chr = switch event.keyCode
       when 188 then ","
@@ -155,10 +156,10 @@ class Twpist
     for i in [2..9]
       $("div.img-container img.pre#{i}").attr src: @timeline[@index+i-1].user.profile_image_url
 
-  countUp: ->
-    @count--
-    $("#left-time").text @count
-    @result() if @count is 0
+  countDown: ->
+    leftTime = Math.ceil ((@endTime - new Date) / 1000)
+    $("#left-time").text leftTime
+    @result() if leftTime < 0
 
   result: ->
     clearInterval(@timer)

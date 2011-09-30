@@ -101,6 +101,10 @@ div.popover div.inner {
     margin: 0 5px 0 5px;
 }
 
+#left-time {
+    font-size: 2em;
+}
+
 #result-typing {
     position: relative;
     background: black;
@@ -110,6 +114,7 @@ div.popover div.inner {
     -moz-border-radius: 5px;
     border-radius: 5px;
 }
+
 div.tweet-button-container {
     position: relative;
     text-align: right;
