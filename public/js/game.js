@@ -62,7 +62,7 @@ $(document).ready(function() {
       if (traverser.traverse(chr)) {
         $("#problem-romaji").text(traverser.decode());
         if (traverser.hasFinished()) {
-          return location.href = "https://twitter.com/intent/tweet?text=" + "さんのツイート速度は" + twpist.getTweetPerSecond() + "tweet/secで一日に最高" + twpist.getMaxTweetPerDay() + "ツイートできます。+%23twpist+http://twpist.com/";
+          return location.href = "https://twitter.com/intent/tweet?text=@" + $("input[name=screen_name]").val() + "さんのツイート速度は" + twpist.getTweetPerSecond() + "tweet/secで一日に最高" + twpist.getMaxTweetPerDay() + "ツイートできます。+%23twpist+http://twpist.com/";
         }
       } else {
         $("#result-typing").animate({

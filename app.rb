@@ -5,31 +5,31 @@ require 'rubytter'
 require 'json'
 require 'nkf'
 require 'MeCab'
-
+require 'pp'
 
 class TwpistApp < Sinatra::Base
   enable :sessions, :logging
-  
+
   configure do
     CONSUMER_KEY, CONSUMER_SECRET = File.open(".consumer").read.split
   end
-  
+
   use Rack::Session::Cookie
   use OmniAuth::Builder do
     provider :twitter, CONSUMER_KEY, CONSUMER_SECRET
   end
-  
+
   helpers do
-    def consumer 
+    def consumer
       @consumer ||= OAuth::Consumer.new(CONSUMER_KEY, CONSUMER_SECRET, :site => "https://api.twitter.com/")
     end
   end
-  
+
   get '/' do
     redirect '/home.html'
     # "twpist<br><a href='/auth/twitter'>twitter</a><br>"
   end
-  
+
   get '/timeline.json' do
     if session[:user]
       rubytter = OAuthRubytter.new(OAuth::AccessToken.new consumer, session[:token], session[:secret])
@@ -40,14 +40,19 @@ class TwpistApp < Sinatra::Base
       status
     }.to_json
   end
-  
+
   get '/auth/twitter/callback' do
     auth = request.env["omniauth.auth"]
-    puts auth
-    session[:user] = auth["uid"]
+    pp auth
+    session[:user] = auth["user_info"]["nickname"]
     session[:token] = auth["credentials"]["token"]
     session[:secret] = auth["credentials"]["secret"]
-    redirect '/game.html'
+    redirect '/game'
+  end
+
+  get '/game' do
+    @screen_name = session[:user]
+    erb :game
   end
 
   post '/logout' do
