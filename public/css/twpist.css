@@ -170,7 +170,7 @@ div.tweet-time {
 }
 
 hr.tweet-hr {
-    margin-bottom: 12px;
+    margin: 1em 0;
 }
 
 ul.result, ul.timeline {
