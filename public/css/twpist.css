@@ -132,7 +132,7 @@ div.timeline-container {
     box-shadow: 0 3px 4px rgba(0,0,0,.5);
     -moz-box-shadow: 0 3px 4px rgba(0,0,0,.5);
     -webkit-box-shadow: 0 3px 4px rgba(0,0,0,.5);
-    min-height: 600px;
+    min-height: 630px;
 }
 
 div.ad-container {
@@ -222,4 +222,10 @@ div.img-container img.icon {
 
 .hidden {
     display: none;
+}
+
+hr.ad-spacer {
+    margin: 0 0 15px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
