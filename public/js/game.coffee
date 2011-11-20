@@ -65,6 +65,7 @@ showResult = ->
   $("ul.tabs .active").removeClass "active"
 
   $(".result").removeClass "hidden"
+  $("ul.result").show()
   $("ul.tabs li.result").addClass "active"
 
 class Twpist

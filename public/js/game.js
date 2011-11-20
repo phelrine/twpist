@@ -1,6 +1,8 @@
 var ProxyStatus, Twpist, showResult, showTimeline, twpist;
 var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+
 twpist = null;
+
 $(document).ready(function() {
   $("li.timeline a").click(showTimeline);
   $("li.result a").click(showResult);
@@ -81,24 +83,31 @@ $(document).ready(function() {
     });
   });
 });
+
 showTimeline = function() {
   $("ul.result").hide();
   $("ul.tabs .active").removeClass("active");
   $("ul.timeline").show();
   return $("ul.tabs li.timeline").addClass("active");
 };
+
 showResult = function() {
   $("ul.timeline").hide();
   $("ul.tabs .active").removeClass("active");
   $(".result").removeClass("hidden");
+  $("ul.result").show();
   return $("ul.tabs li.result").addClass("active");
 };
+
 Twpist = (function() {
+
   function Twpist(level) {
     this.level = level;
     this.keydownFunc = __bind(this.keydownFunc, this);
   }
+
   Twpist.prototype.loadAssignment = function() {
+    var _this = this;
     this.index = -1;
     this.allType = 0;
     $("div.level-container").hide("slow");
@@ -107,13 +116,13 @@ Twpist = (function() {
       error: function(data) {
         return location.href = "/";
       },
-      success: __bind(function(timeline) {
+      success: function(timeline) {
         var hashtag, lengthFilter, status, text, url, user, yomi, _i, _j, _k, _l, _len, _len2, _len3, _len4, _ref, _ref2, _ref3;
         for (_i = 0, _len = timeline.length; _i < _len; _i++) {
           status = timeline[_i];
           yomi = status.yomi;
           text = status.text;
-          if (this.level < 3) {
+          if (_this.level < 3) {
             _ref = twttr.txt.extractUrls(yomi);
             for (_j = 0, _len2 = _ref.length; _j < _len2; _j++) {
               url = _ref[_j];
@@ -121,7 +130,7 @@ Twpist = (function() {
               text = text.replace(url, "");
             }
           }
-          if (this.level < 2) {
+          if (_this.level < 2) {
             _ref2 = twttr.txt.extractHashtags(yomi);
             for (_k = 0, _len3 = _ref2.length; _k < _len3; _k++) {
               hashtag = _ref2[_k];
@@ -135,22 +144,23 @@ Twpist = (function() {
               text = text.replace("@" + user, "");
             }
           }
-          if (this.level === 3) {
+          if (_this.level === 3) {
             status.yomi = yomi.replace(/[^ぁ-ん0-9a-zA-Z,、.。ー-]+/g, "");
           } else {
             status.yomi = yomi.replace(/[^ぁ-ん0-9a-zA-Zー-]+/g, "");
           }
           status.text = text;
         }
-        this.timeline = timeline.sort(function(a, b) {
+        _this.timeline = timeline.sort(function(a, b) {
           return a.yomi.length - b.yomi.length;
         });
         lengthFilter = function(length) {
-          return __bind(function(tweet) {
+          var _this = this;
+          return function(tweet) {
             return tweet.yomi.length > length;
-          }, this);
+          };
         };
-        this.timeline = (function() {
+        _this.timeline = (function() {
           switch (this.level) {
             case 2:
               return this.timeline.filter(lengthFilter(10));
@@ -159,17 +169,18 @@ Twpist = (function() {
             default:
               return this.timeline;
           }
-        }).call(this);
-        this.nextAssignment();
-        this.endTime = new Date((new Date).getTime() + 140000);
+        }).call(_this);
+        _this.nextAssignment();
+        _this.endTime = new Date((new Date).getTime() + 140000);
         $("div.controller-container").show();
-        $(document).keydown(this.keydownFunc);
-        return this.timer = setInterval((__bind(function() {
-          return this.countDown();
-        }, this)), 100);
-      }, this)
+        $(document).keydown(_this.keydownFunc);
+        return _this.timer = setInterval((function() {
+          return _this.countDown();
+        }), 100);
+      }
     }, false);
   };
+
   Twpist.prototype.keydownFunc = function(event) {
     var chr, time, tweet;
     chr = (function() {
@@ -217,6 +228,7 @@ Twpist = (function() {
       }, 10);
     }
   };
+
   Twpist.prototype.nextAssignment = function() {
     var i, status, _results;
     this.index++;
@@ -248,14 +260,14 @@ Twpist = (function() {
     }
     return _results;
   };
+
   Twpist.prototype.countDown = function() {
     var leftTime;
     leftTime = Math.ceil((this.endTime - new Date) / 1000);
     $("#left-time").text(leftTime);
-    if (leftTime < 0) {
-      return this.result();
-    }
+    if (leftTime < 0) return this.result();
   };
+
   Twpist.prototype.result = function() {
     var resultList, tweetEjs;
     clearInterval(this.timer);
@@ -283,12 +295,15 @@ Twpist = (function() {
       status: new ProxyStatus(this.getMaxTweetPerDay() + "ツイート", "img/icon.gif", "一日でツイートできる回数")
     }));
   };
+
   Twpist.prototype.getTweetPerSecond = function() {
     return (this.index / 140).toFixed(2);
   };
+
   Twpist.prototype.getMaxTweetPerDay = function() {
     return 650 * this.index;
   };
+
   Twpist.prototype.getLevelStr = function() {
     switch (this.level) {
       case 1:
@@ -301,19 +316,23 @@ Twpist = (function() {
         return "ERROR";
     }
   };
+
   return Twpist;
+
 })();
+
 ProxyStatus = (function() {
+
   function ProxyStatus(text, image, screen, name) {
     this.text = text;
-    if (name == null) {
-      name = screen;
-    }
+    if (name == null) name = screen;
     this.user = {
       profile_image_url: image,
       screen_name: screen,
       name: name
     };
   }
+
   return ProxyStatus;
+
 })();
