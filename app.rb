@@ -1,7 +1,6 @@
-require 'bundler/setup'
 require 'sinatra/base'
-require 'omniauth'
-require 'rubytter'
+require 'omniauth-twitter'
+require 'twitter'
 require 'json'
 require 'nkf'
 require 'MeCab'
@@ -12,6 +11,10 @@ class TwpistApp < Sinatra::Base
 
   configure do
     CONSUMER_KEY, CONSUMER_SECRET = File.open(".consumer").read.split
+    Twitter.configure do |config|
+      config.consumer_key = CONSUMER_KEY
+      config.consumer_secret = CONSUMER_SECRET
+    end
   end
 
   use Rack::Session::Cookie
@@ -47,23 +50,27 @@ class TwpistApp < Sinatra::Base
   get '/timeline.json' do
     if session[:user]
       begin
-        rubytter = OAuthRubytter.new(OAuth::AccessToken.new consumer, session[:token], session[:secret])
+        client = Twitter::Client.new(
+          :oauth_token => session[:token],
+          :oauth_token_secret => session[:secret]
+          )
       rescue
         logout if error.message == "Could not authenticate with OAuth."
         halt 500
       end
     end
     content_type :json
-    rubytter.friends_timeline(:count => 200).to_a.map{|status|
-      status[:yomi] = NKF.nkf("-w --hiragana", MeCab::Tagger.new("-O yomi").parse(status.text)).chomp
-      status
+    client.home_timeline(:count => 200).to_a.map{|status|
+      ret = status.to_hash
+      ret[:yomi] = NKF.nkf("-w --hiragana", MeCab::Tagger.new("-O yomi").parse(status.text)).chomp
+      ret
     }.to_json
   end
 
   get '/auth/twitter/callback' do
     auth = request.env["omniauth.auth"]
     pp auth
-    session[:user] = auth["user_info"]["nickname"]
+    session[:user] = auth["info"]["nickname"]
     session[:token] = auth["credentials"]["token"]
     session[:secret] = auth["credentials"]["secret"]
     redirect '/game'
