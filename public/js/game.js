@@ -194,6 +194,8 @@
             return ",";
           case 189:
           case 109:
+          case 45:
+          case 173:
             return "-";
           case 190:
             return ".";
