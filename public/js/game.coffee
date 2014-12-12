@@ -37,7 +37,7 @@ $(document).ready ->
     $(document).keydown (event) ->
       chr = switch event.keyCode
         when 188 then ","
-        when 189, 109 then "-"
+        when 189, 109, 45, 173 then "-"
         when 190 then "."
         else String.fromCharCode(event.keyCode).toLowerCase()
       if traverser.traverse chr
