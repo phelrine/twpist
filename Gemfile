@@ -1,4 +1,5 @@
 source 'http://rubygems.org'
+ruby '2.5.1'
 
 gem 'sinatra', '~> 2.0.3'
 gem 'omniauth', '~> 1.8.1'
