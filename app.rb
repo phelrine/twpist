@@ -75,7 +75,7 @@ get '/game' do
   erb :game
 end
 
-post '/logout' do
+get '/logout' do
   logout
-  ""
+  redirect to('/')
 end

@@ -30,11 +30,6 @@
     $("#start-button").click(function() {
       return twpist.loadAssignment();
     });
-    $("a.logout").click(function() {
-      return $.post("/logout", function() {
-        return location.href = "/";
-      });
-    });
     false;
     return $("#tweet-button").click(function() {
       var traverser, typing;

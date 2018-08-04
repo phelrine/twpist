@@ -22,8 +22,6 @@ $(document).ready ->
 
   $("#start-button").click ->
     twpist.loadAssignment()
-  $("a.logout").click ->
-    $.post "/logout", -> location.href = "/"
   false
 
   $("#tweet-button").click ->
