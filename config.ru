@@ -1,7 +1,5 @@
-$:.unshift File.dirname(__FILE__)
-require 'app'
+require './app'
 require 'dotenv'
 
 Dotenv.load
-
-run TwpistApp
+run Sinatra::Application
