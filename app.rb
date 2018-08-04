@@ -3,28 +3,20 @@ require 'omniauth-twitter'
 require 'twitter'
 require 'json'
 require 'nkf'
-require 'MeCab'
+# require 'MeCab'
 require 'pp'
 
 class TwpistApp < Sinatra::Base
   enable :logging
 
-  configure do
-    CONSUMER_KEY, CONSUMER_SECRET = File.open(".consumer").read.split
-    Twitter.configure do |config|
-      config.consumer_key = CONSUMER_KEY
-      config.consumer_secret = CONSUMER_SECRET
-    end
-  end
-
   use Rack::Session::Cookie
   use OmniAuth::Builder do
-    provider :twitter, CONSUMER_KEY, CONSUMER_SECRET
+    provider :twitter, ENV['TWITTER_CONSUMER_KEY'], ENV['TWITTER_CONSUMER_SECRET']
   end
 
   helpers do
     def consumer
-      @consumer ||= OAuth::Consumer.new(CONSUMER_KEY, CONSUMER_SECRET, :site => "https://api.twitter.com/")
+      @consumer ||= OAuth::Consumer.new(ENV['TWITTER_CONSUMER_KEY'], ENV['TWITTER_CONSUMER_SECRET'], :site => "https://api.twitter.com/")
     end
 
     def logout
@@ -50,10 +42,12 @@ class TwpistApp < Sinatra::Base
   get '/timeline.json' do
     if session[:user]
       begin
-        client = Twitter::Client.new(
-          :oauth_token => session[:token],
-          :oauth_token_secret => session[:secret]
-          )
+        client = Twitter::REST::Client.new do |c|
+          c.consumer_key = ENV['TWITTER_CONSUMER_KEY']
+          c.consumer_secret = ENV['TWITTER_CONSUMER_SECRET']
+          c.access_token = session[:token]
+          c.access_token_secret = session[:secret]
+        end
       rescue
         logout if error.message == "Could not authenticate with OAuth."
         halt 500
