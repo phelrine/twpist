@@ -3,7 +3,7 @@ require 'omniauth-twitter'
 require 'twitter'
 require 'json'
 require 'nkf'
-# require 'MeCab'
+require 'mecab'
 require 'pp'
 
 class TwpistApp < Sinatra::Base
