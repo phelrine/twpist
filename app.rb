@@ -1,18 +1,36 @@
+# coding: utf-8
 require 'sinatra/base'
+require 'sinatra/asset_pipeline'
 require 'omniauth-twitter'
 require 'twitter'
 require 'json'
 require 'nkf'
 require 'mecab'
 require 'pp'
+require 'securerandom'
 
 class TwpistApp < Sinatra::Base
   enable :logging
-  enable :sessions
-  set :session_secret, ENV['SESSION_SECRET']
 
-  use OmniAuth::Builder do
-    provider :twitter, ENV['TWITTER_CONSUMER_KEY'], ENV['TWITTER_CONSUMER_SECRET']
+  configure do
+    use Rack::Session::Cookie,
+        expire_after: 604800,
+        secret: ENV.fetch('SESSION_SECRET') { 'secret' }
+
+    use OmniAuth::Builder do
+      provider :twitter, ENV['TWITTER_CONSUMER_KEY'], ENV['TWITTER_CONSUMER_SECRET']
+    end
+
+    set :assets_precompile, %w(application.js application.css *.png *.jpg *.svg *.eot *.ttf *.woff)
+    set :assets_js_compressor, :uglifier
+    register Sinatra::AssetPipeline
+
+    Bundler.require
+    if defined?(RailsAssets)
+      settings.sprockets.append_path(File.join(root, 'assets', 'javascripts'))
+      settings.sprockets.append_path(File.join(root, 'assets', 'stylesheets'))
+      RailsAssets.load_paths.each { |path| settings.sprockets.append_path(path) }
+    end
   end
 
   helpers do
@@ -64,7 +82,6 @@ class TwpistApp < Sinatra::Base
 
   get '/auth/twitter/callback' do
     auth = request.env["omniauth.auth"]
-    pp auth
     session[:user] = auth["info"]["nickname"]
     session[:token] = auth["credentials"]["token"]
     session[:secret] = auth["credentials"]["secret"]
