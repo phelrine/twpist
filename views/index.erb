@@ -4,79 +4,83 @@
     <title>Twpist</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="author" content="ackyla">
-    <meta name="author" content="phelrine">    
-    <meta name="description" content="twitterのタイムラインを利用してタイピングができます。">
-    <meta name="keywords" content="タイピング,typing,ツイッター,twitter,ツイピスト,twpist">
+    <meta name="author" content="phelrine">
+		<meta name="description" content="普通のタイピング練習サイトに飽きたあなたへ。TwpistはTwitterのタイムラインを利用した新しいタイピングゲームです。" />
+    <meta name="keywords" content="タイピング,typing,ツイッター,twitter,ツイピスト,twpist,タイピング練習" />
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
     <!--[if lt IE 9]>
-	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
+				<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
     <link rel="shortcut icon" href="img/icon.gif">
 		<%= stylesheet_tag 'application' %>
 		<%= javascript_tag 'application' %>
   </head>
 
   <body>
-
     <div class="topbar">
       <div class="fill">
         <div class="container">
           <h3><a href="/">Twpist</a></h3>
           <ul class="nav">
             <li class="active">
-            <li><a href="/auth/twitter">OAuth認証</a></li>
-	        <div id="signin" class="twipsy fade below in" style="font-size: 20px;">
-	          <div class="twipsy-arrow"></div>
-	          <div class="twipsy-inner">Click!</div>
-	        </div>
+            <li><a href="/auth/twitter">タイピングを始める</a></li>
+						<div id="signin" class="twipsy fade below in" style="font-size: 20px;">
+							<div class="twipsy-arrow"></div>
+							<div class="twipsy-inner">Click!</div>
+						</div>
           </ul>
         </div>
       </div>
     </div>
-
     <div class="container">
-
       <div class="main-layout">
-	    <div id="slidemask">
-	      <ul id="photo">
-	        <li id="slide01"><img class="image" src="img/home_01.png" alt=""></li>
-	        <li id="slide02"><img class="image" src="img/home_02.png" alt=""></li>
-	        <li id="slide03"><img class="image" src="img/home_03.png" alt=""></li>
-	      </ul>
-	    </div>
+				<div id="slidemask">
+					<ul id="photo">
+						<li id="slide01"><img class="image" src="img/home_01.png" alt=""></li>
+						<li id="slide02"><img class="image" src="img/home_02.png" alt=""></li>
+						<li id="slide03"><img class="image" src="img/home_03.png" alt=""></li>
+					</ul>
+				</div>
       </div>
 
       <!-- Example row of columns -->
       <div class="row">
-	    <div class="span-one-third column">
-	      <div class="mini-layout">
-	        <a href="#home">
-	          <img class="image" src="img/inst01.png">
-	        </a>
-	      </div>
-	    </div>
-	    <div class="span-one-third column">
-	      <div class="mini-layout">
-	        <a href="#home">
-	          <img class="image" src="img/inst02.png">
-	        </a>
-	      </div>
-	    </div>
-	    <div class="span-one-third column">
-	      <div class="mini-layout">
-	        <a href="#home">
-	          <img class="image" src="img/inst03.png">
-	        </a>
-	      </div>
-	    </div>
+				<div class="span-one-third column">
+					<div class="mini-layout">
+						<a href="#home">
+							<img class="image" src="img/inst01.png">
+						</a>
+					</div>
+				</div>
+				<div class="span-one-third column">
+					<div class="mini-layout">
+						<a href="#home">
+							<img class="image" src="img/inst02.png">
+						</a>
+					</div>
+				</div>
+				<div class="span-one-third column">
+					<div class="mini-layout">
+						<a href="#home">
+							<img class="image" src="img/inst03.png">
+						</a>
+					</div>
+				</div>
       </div>
 
+			<ul style="padding: 0px 1em 0px; font-size: 11px; color: #777; list-style: none; margin: 0;">
+				<li style="line-height: 14px; padding-bottom: 5px;">Twpistでタイピング練習をするためには、Twitterアカウント及び、最新バージョンのChrome、Firefox、Safariが必要です。古いバージョン、またはこれら以外のブラウザを使用すると、正常に動作しない場合があります。</li>
+				<li style="line-height: 14px; padding-bottom: 5px;">漢字の読み推定には標準的な辞書を使用しています。語句によって、正確な読みが表示されない場合があります。</li>
+			</ul>
+      <p style="font-size: 11px; color: #777; margin: 5px 0 5px;">バグの報告・質問は<a href="http://twitter.com/#!/ackyla">@ackyla</a>、<a href="http://twitter.com/#!/phelrine">@phelrine</a>まで。</p>
+			<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+			<a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="basic-counter" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+
       <footer>
-        <p>&copy; 2011 Twpist <a href="http://twitter.com/#!/ackyla">@ackyla</a> <a href="http://twitter.com/#!/phelrine">@phelrine</a></p>
+				<p style="font-size: 11px; color: #888;">Copyright &copy; 2011 Twpist. All rights reserved.</p>
       </footer>
 
     </div> <!-- /container -->
-
   </body>
 </html>

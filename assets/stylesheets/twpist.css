@@ -138,6 +138,7 @@ div.timeline-container {
 div.ad-container {
     position: relative;
     z-index: 0;
+		margin: 10px;
 }
 
 img.tweet-image {
