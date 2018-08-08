@@ -21,7 +21,7 @@ class TwpistApp < Sinatra::Base
       provider :twitter, ENV['TWITTER_CONSUMER_KEY'], ENV['TWITTER_CONSUMER_SECRET']
     end
 
-    set :assets_precompile, %w(game.coffee application.js application.css *.png *.jpg *.svg *.eot *.ttf *.woff)
+    set :assets_precompile, %w(game.coffee application.js application.sass *.png *.jpg *.svg *.eot *.ttf *.woff)
     set :assets_js_compressor, :uglifier
     set :assets_css_compressor, :sass
     register Sinatra::AssetPipeline
