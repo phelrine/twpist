@@ -1,5 +1,7 @@
 //= require romanization
 //= require dict
+//= require twitter-text
+//= require ejs
 twpist = null
 
 $(document).ready ->
