@@ -85,3 +85,5 @@ class Traverser
     flag
 
   hasFinished: -> @index >= @graph.length
+
+window.RomanizationGraph = RomanizationGraph

@@ -1,3 +1,5 @@
+//= require romanization
+//= require dict
 twpist = null
 
 $(document).ready ->
